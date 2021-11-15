@@ -1,6 +1,6 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAMES HERE"
+title: "EDAV: NYC Crime Covid-19 Analysis"
+author: "sq2239 Sitong Qian, hl3518 Hongou Liu"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
