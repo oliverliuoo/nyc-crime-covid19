@@ -29,6 +29,19 @@ NYC employment data(possible support dataset)
 
 https://data.cityofnewyork.us/City-Government/New-York-City-Seasonally-Adjusted-Employment/5hjv-bjbv
 
+### Future Plan
+#### Data 
+Already done.
+#### Cleaning
+Oliver will be working on the NYC crime dataset, and Sitong will handle the data about Covid-19.
+#### Visualize
+First for visualization of single varibales, we will split it up into two parts and each accomplish one.
+And for the visualization of interaction bewteen each feature and target variable, we also split it up evenly.
+#### Interactive
+We will each implement part of the code of D3js.
+#### Conclusion
+We will discuss together and complete it together.
+
 *This repo was initially generated from a bookdown template available here: https://github.com/jtr13/EDAVtemplate.*	
 
 

@@ -33,7 +33,6 @@
   
 <link rel="prev" href="data-transformation.html"/>
 <link rel="next" href="results.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -56,27 +55,25 @@
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -85,9 +82,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -140,10 +137,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
-<ul>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a><ul>
 <li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#visualize-missing-values"><i class="fa fa-check"></i><b>4.1</b> Visualize missing values</a></li>
-<li class="chapter" data-level="4.2" data-path="missing-values.html"><a href="missing-values.html#analysis"><i class="fa fa-check"></i><b>4.2</b> Analysis</a></li>
+<li class="chapter" data-level="4.2" data-path="missing-values.html"><a href="missing-values.html#analysis"><i class="fa fa-check"></i><b>4.2</b> Analysis</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="missing-values.html"><a href="missing-values.html#sampling"><i class="fa fa-check"></i><b>4.2.1</b> Sampling</a></li>
+<li class="chapter" data-level="4.2.2" data-path="missing-values.html"><a href="missing-values.html#overview"><i class="fa fa-check"></i><b>4.2.2</b> Overview</a></li>
+<li class="chapter" data-level="4.2.3" data-path="missing-values.html"><a href="missing-values.html#feature"><i class="fa fa-check"></i><b>4.2.3</b> Feature</a></li>
+<li class="chapter" data-level="4.2.4" data-path="missing-values.html"><a href="missing-values.html#missing-pattern"><i class="fa fa-check"></i><b>4.2.4</b> Missing Pattern</a></li>
+<li class="chapter" data-level="4.2.5" data-path="missing-values.html"><a href="missing-values.html#future-work"><i class="fa fa-check"></i><b>4.2.5</b> Future Work</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
@@ -167,27 +169,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="missing-values" class="section level1" number="4">
+<div id="missing-values" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Missing values</h1>
-<div id="visualize-missing-values" class="section level2" number="4.1">
+<div id="visualize-missing-values" class="section level2">
 <h2><span class="header-section-number">4.1</span> Visualize missing values</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="missing-values.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load my functions and data</span></span>
-<span id="cb1-2"><a href="missing-values.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-3"><a href="missing-values.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-4"><a href="missing-values.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb1-5"><a href="missing-values.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&#39;missing_value_vis.R&#39;</span>)</span>
-<span id="cb1-6"><a href="missing-values.html#cb1-6" aria-hidden="true" tabindex="-1"></a>nyc_crime_sample <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">&#39;data/sample_data.csv&#39;</span>)</span>
-<span id="cb1-7"><a href="missing-values.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## draw missing plot with count</span></span>
-<span id="cb1-8"><a href="missing-values.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">main_missing_plot</span>(nyc_crime_sample, F)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## load my functions and data</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(patchwork)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">source</span>(<span class="st">&#39;missing_value_vis.R&#39;</span>)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">nyc_crime_sample =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;data/sample_data.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">## draw missing plot with count</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">main_missing_plot</span>(nyc_crime_sample, F)</a></code></pre></div>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="missing-values.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## draw missing plot with percentage</span></span>
-<span id="cb2-2"><a href="missing-values.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">main_missing_plot</span>(nyc_crime_sample, T)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## draw missing plot with percentage</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">main_missing_plot</span>(nyc_crime_sample, T)</a></code></pre></div>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
 </div>
-<div id="analysis" class="section level2" number="4.2">
+<div id="analysis" class="section level2">
 <h2><span class="header-section-number">4.2</span> Analysis</h2>
-<p>something</p>
+<div id="sampling" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Sampling</h3>
+<p>For our final project, we apply the missing pattern function to our dataset. Since we are having a very large dataset(millions of rows), we chose to sample a relatively smaller proportion(2000 rows) of original dataset to visualize its missing pattern, as it will be more efficient in terms of time and won’t cause loss of generity.</p>
+</div>
+<div id="overview" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Overview</h3>
+<p>We have in total 20 columns in our dataset, and from the missing plot above we see that nearly 65% of the rows are complete, and of all the features that have missing values, the missing percent are all below 25%. This suggests desirable integrity of our dataset.</p>
+</div>
+<div id="feature" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Feature</h3>
+<p>From the graph, we are having a total of 7 features that contain missing value, there are susp_age_group, susp_race, susp_sex, loc_of_occur_desc,boro_nm, perm_typ_desc, pd_desc.
+We can conclude from the layout that the first four are denoted as the top four missing features, each of them has approximately 25% of the values been noted as missing. The latter three feature doesn’t seem that important.</p>
+</div>
+<div id="missing-pattern" class="section level3">
+<h3><span class="header-section-number">4.2.4</span> Missing Pattern</h3>
+<p>From the main plot, there are in total of 9 missing patterns, which first three missing patterns dominate the missing pattern plot, generally speaking, they can be categorized as three types, description of the biological appearance of the suspect, location of the accidents that occurred, and combination of previous two.</p>
+<p>For the missing the biological description of the suspect, it actually makes sense, since it is expected to see in the reality that the suspect will cover his or her face, try his or her best to hide his or her biological appearance, to avoid being arrested by police.</p>
+<p>For the missing of the location of the accidents that occurred, it makes sense too, since people tend to realize what happened after it’s already happened, like if something has been stolen, the victim probably realized way after it’s happened, and having a hard time to exact the location.</p>
+<p>All the other missing patterns are almost ignorable.</p>
+</div>
+<div id="future-work" class="section level3">
+<h3><span class="header-section-number">4.2.5</span> Future Work</h3>
+<p>In our future work of processing missing values, we might choose between using imputation or taking them as a new category. We will determine it after further detailed exploration.</p>
 
+</div>
 </div>
 </div>
             </section>

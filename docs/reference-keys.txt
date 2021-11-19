@@ -7,3 +7,8 @@ interactive-component
 conclusion
 visualize-missing-values
 analysis
+sampling
+overview
+feature
+missing-pattern
+future-work
