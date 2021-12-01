@@ -8,7 +8,7 @@ if __name__ == '__main__':
                  'VIC_AGE_GROUP', 'VIC_RACE', 'VIC_SEX', 'X_COORD_CD', 'Y_COORD_CD',
                  'Latitude', 'Longitude']
     print(len(keep_cols))
-    df[keep_cols].sample(2000).to_csv("../data/sample_data.csv")
+    df[keep_cols].sample(60000).to_csv("../data/crime_data.csv")
     # for col in df.columns:
     #     miss_percent = df[col].isna().sum() / len(df[col])
     #     if miss_percent < 0.5:
