@@ -1,0 +1,32 @@
+---
+title: "final project"
+author: "sitong qian oliver liu"
+date: "12/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r}
+df <- read_csv("~/Desktop/proj/nyc-crime-covid19/data/crime_data.csv")
+```
+
+```{r, fig.width=14,fig.height=14}
+ barplot(table(df$OFNS_DESC))
+```
+```{r}
+filter(df,!(df$VIC_AGE_GROUP == 'UNKNOWN' | df$SUSP_AGE_GROUP == 'UNKNOWN' | df$VIC_AGE_GROUP ==  ''| df$SUSP_AGE_GROUP == '' |df$VIC_RACE== 'UNKNOWN' | df$SUSP_RACE == 'UNKNOWN' | df$VIC_RACE ==  ''| df$SUSP_RACE == ''))
+```
+
+```{r}
+df$SUSP_RACE <- gsub("UNKNOWN", '', df$SUSP_RACE)
+df$SUSP_AGE_GROUP <- gsub("UNKNOWN", '', df$SUSP_AGE_GROUP)
+```
+
