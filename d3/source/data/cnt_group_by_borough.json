@@ -1,0 +1,42 @@
+{
+    "Bronx": {
+        "ASSAULT": 158826,
+        "MURDER": 2506,
+        "ROBBERY": 20749,
+        "SEX CRIMES": 6081,
+        "THEFT": 99860,
+        "sum": 288022
+    },
+    "Brooklyn": {
+        "ASSAULT": 167299,
+        "MURDER": 1702,
+        "ROBBERY": 25641,
+        "SEX CRIMES": 7125,
+        "THEFT": 127727,
+        "sum": 329494
+    },
+    "Manhattan": {
+        "ASSAULT": 124660,
+        "MURDER": 1296,
+        "ROBBERY": 15942,
+        "SEX CRIMES": 5167,
+        "THEFT": 197242,
+        "sum": 344307
+    },
+    "Queen": {
+        "ASSAULT": 131850,
+        "MURDER": 1476,
+        "ROBBERY": 15815,
+        "SEX CRIMES": 6831,
+        "THEFT": 82258,
+        "sum": 238230
+    },
+    "Staten Island": {
+        "ASSAULT": 25108,
+        "MURDER": 251,
+        "ROBBERY": 2433,
+        "SEX CRIMES": 1018,
+        "THEFT": 15424,
+        "sum": 44234
+    }
+}
