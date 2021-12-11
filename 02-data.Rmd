@@ -1,2 +1,40 @@
 # Data sources
 
+## Check Data
+```{r}
+df <- read.csv('data/crime_data.csv')
+summary(df)
+```
+```{r, fig.width=14, fig.height=14}
+## load my functions and data
+library(ggplot2)
+library(tidyverse)
+library(patchwork)
+source('missing_value_vis.R')
+nyc_crime_sample = read_csv('data/crime_data.csv')
+## draw missing plot with count
+main_missing_plot(nyc_crime_sample, F)
+```
+
+```{r}
+### process missing value
+### As all missing values occur in characteristics columns
+### We choose to impute them using a special string `UNKNOWN`
+
+df_fill_missing <- gsub("UNKNOWN", "", df)
+
+# check if we've filled all the missing
+sum(is.na(df_fill_missing))
+```
+```{r}
+## re-categorize crime type and location
+View(table(df$PREM_TYP_DESC))
+View(table(df$OFNS_DESC))
+```
+
+```{r}
+library(sjmisc)
+oldstring <- c("Hello", "Helo", "Hole", "Apple",
+               "Ape", "New", "Old", "System", "Systemic")
+newstring <- group_str(oldstring)
+```

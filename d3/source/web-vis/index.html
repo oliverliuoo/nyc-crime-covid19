@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: Creating paragraphs dynamically from data</title>
+		<script src="https://d3js.org/d3.v6.js"></script>
+        <script src="https://d3js.org/d3-array.v2.min.js"></script>
+        <script src="https://d3js.org/d3-geo.v2.min.js"></script>
+	</head>
+	<body>
+        <h2>NYC Crime visualization</h1>
+        <div align="center" style="position:relative;top:10px">
+            <button id="reset">Reset</button>
+        </div>
+        <script>
+        // canvas setting
+        const SvgWidth = 1600
+        const SvgHeight = 800
+        
+        // Map
+        const MapWidth = 600
+        const MapHeight = 450
+        const MapMargin = {"left": -50, "top": 100}
+        const LegendMargin = {"left": 0, "top": 10}
+        const LegendSize = {"width": 20, "height": 100}
+
+        // Pie
+        const PieWidth = 300
+        const PieHeight = 300
+        const PieMargin = {"left": 1100, "top": 150}
+        const InnerRadius = 50
+        const OutterRadius = 100
+
+        // bar plot
+        const BarWidth = 250
+        const BarHeight = 200
+        const BarMargin1 = {"left": 750, "top": 400}
+        const BarMargin2 = {"left": 1050, "top": 400}
+        const BarMargin3 = {"left": 1350, "top": 400}
+       
+        const duration = 24;
+
+        // define global indicator
+        var PRECINCT = 'all';
+        var CRIME_TYPE = 'all';
+
+        // initialization for all sub-graphs
+
+        // nyc map
+        const projection = d3.geoMercator()// mercator makes it easy to center on specific lat/long
+                .scale(60000)
+                .center([-73.94, 40.70]); // long, lat of NYC
+
+        const pathGenerator = d3.geoPath()
+            .projection(projection);
+        
+        var centered;
+        var svg = d3.select("body").append("svg")
+                    .attr("width", SvgWidth)
+                    .attr("height", SvgHeight)
+        
+        var background = svg.append("rect")
+                                .attr("class", "background")
+                                .attr("width", SvgWidth)
+                                .attr("height", SvgHeight)
+                                .style('fill', 'white')
+                                // .on("click", function(d){
+                                //     reset_map;
+                                //     reset_pie_all;
+                                // });
+
+        var nycMap = svg.append('g')
+                          .attr('width', MapWidth)
+                          .attr('height', MapHeight)
+                          .attr("transform", "translate(" + MapMargin.left+ "," + MapMargin.top + ")");
+        
+        // legend for heatmap
+        var legend = svg.append('g')
+            .attr("transform", "translate(" + LegendMargin.left + "," + (LegendMargin.top) + ")")
+            
+        legend.append("rect")
+            .attr("width", LegendSize.width)
+            .attr("height", LegendSize.height)
+            .style("fill", "url(#linear-gradient)");
+        
+        // create tooltip
+        var tooltip = d3.select("body")
+            .append("div")
+            .style("position", "absolute")
+            .style("background-color", "#CCE7F5")
+            .style("padding", "4px")
+            .style("z-index", "2")
+            .style("visibility", "hidden")
+            .text("a simple tooltip");
+
+        var colorAxis = legend.append('g').attr("transform", "translate(0," + LegendSize.height + ")");
+        
+        // pie chart
+        var pieChart = svg.append('g')
+                          .attr('width', PieWidth)
+                          .attr('height', PieHeight)
+                          .attr("transform", "translate(" + PieMargin.left+ "," + PieMargin.top + ")");
+        var arc = d3.arc()
+                .innerRadius(InnerRadius)
+                .outerRadius(OutterRadius);
+
+        var pieColor = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#6C182A']);
+        const CrimeColorMap = {'ASSAULT': '#4daf4a', 
+                                'THEFT': '#377eb8',
+                                'ROBBERY': '#ff7f00',
+                                'SEX CRIMES': '#984ea3',
+                                'MURDER': '#6C182A'}
+        
+        // Bar plots 
+        var BarForAge = svg.append('g')
+                          .attr('width', BarWidth)
+                          .attr('height', BarHeight)
+                          .attr("transform", "translate(" + BarMargin1.left+ "," + BarMargin1.top + ")");
+        
+        var xScaleAge = d3.scaleBand().range ([0, BarWidth]).padding(0.4);
+        var yScaleAge = d3.scaleLinear().range ([BarHeight, 0]);
+
+        var BarForRace = svg.append('g')
+                          .attr('width', BarWidth)
+                          .attr('height', BarHeight)
+                          .attr("transform", "translate(" + BarMargin2.left+ "," + BarMargin2.top + ")");
+
+        var xScaleRace = d3.scaleBand().range ([0, BarWidth]).padding(0.4);
+        var yScaleRace = d3.scaleLinear().range ([BarHeight, 0]);
+
+        var BarForSex = svg.append('g')
+                          .attr('width', BarWidth)
+                          .attr('height', BarHeight)
+                          .attr("transform", "translate(" + BarMargin3.left+ "," + BarMargin3.top + ")");
+                        
+        var xScaleSex = d3.scaleBand().range ([0, BarWidth]).padding(0.4);
+        var yScaleSex = d3.scaleLinear().range ([BarHeight, 0]);
+        
+        // reset button
+        var reset_button = d3.select("button#reset")
+                             .on('click', function(){
+                                 reset_map();
+                                 reset_pie_all();
+                                 reset_age();
+                                 reset_sex();
+                                 reset_race();
+                             })
+
+        
+        // initialization for zoom
+        const zoom = d3.zoom()
+                       .scaleExtent([1, 4])
+                       .on("zoom", zoomed);
+        nycMap.call(zoom)
+
+        // heatmap of precinct
+        d3.json('../data/police_precincts.geo.json').then(function(geo_data){
+            
+            // console.log(geo_data)
+            d3.json('../data/cnt_group_by_precinct.json').then(function(data){
+                // console.log(data)
+                
+                // var data_by_precinct = d3.group(data, d => d.arrest_precinct);
+                // console.log(data_by_precinct)
+                var sum_cnt_list = [];
+                // calculae sum values for each precinct
+                for (key in data){
+                    sum_cnt_list.push(data[key]['sum']);
+                }
+                maxCnt = d3.max(sum_cnt_list);
+                minCnt = d3.min(sum_cnt_list);
+
+                // console.log(minCnt) 
+                // console.log(maxCnt)            
+
+                nycMap.selectAll('path')
+                .data(geo_data.features)
+                .enter().append('path')
+                    .attr("id", function(d){return d.properties.Precinct.toString()})
+                    .attr("tot_cnt", function(d){return data[d.properties.Precinct.toString()]['sum']})
+                    .attr("stroke","grey")//设置边线颜色
+                    .attr("stroke-width",0.75)//设置边线宽度
+                    .style('fill', '#E13C19')
+                    .style('fill-opacity', function(d){
+                        if (data.hasOwnProperty(d.properties.Precinct.toString())){
+                            return (data[d.properties.Precinct.toString()]['sum'] - minCnt) / (maxCnt - minCnt);
+                        }
+                        return 0;
+                    })
+                    // .style('fill', d => color(crime_cn4t.get(d.id.toString())))
+                    .attr('d', pathGenerator)
+                    .on('mouseover', function (d, i) {
+                            //console.log(this);
+                            // edit tooltip
+                            console.log(d);
+                            if (CRIME_TYPE == "all"){
+                                crime_cnt = data[this.id]['sum'];
+                            }
+                            else{
+                                crime_cnt = data[this.id][CRIME_TYPE];
+                            }
+                            tooltip.style("visibility", "visible")
+                                   .text("precinct-ID: " + this.id + "\n" + 
+                                   "  crime count: " + crime_cnt + "  crime_type: " + CRIME_TYPE);
+
+                            d3.select(this).transition()
+                                    .attr('stroke', 'black')
+                                    .attr("stroke-width", 1);
+                            update_pie(this.id);
+                            if (CRIME_TYPE == 'all'){
+                                update_age(1, this.id);
+                                update_race(1, this.id);
+                                update_sex(1, this.id);
+                            }
+                            else{
+                                key = [CRIME_TYPE, this.id]
+                                update_age(3, key);
+                                update_race(3, key);
+                                update_sex(3, key);
+                            }
+                                            })
+                    .on("mousemove", function(){
+                            return tooltip.style("top", (event.pageY-20)+"px")
+                                          .style("left",(event.pageX+20)+"px");})
+                    .on('mouseout', function (d, i) {
+                            tooltip.style("visibility", "hidden");
+                            d3.select(this).transition()
+                                    .attr('stroke', 'grey')
+                                    .attr("stroke-width",0.75);
+                            reset_pie_partial();
+                            if (CRIME_TYPE == 'ALL'){
+                                reset_age();
+                                reset_sex();
+                                reset_race();
+                            }
+                            else{
+                                update_age(2, CRIME_TYPE);
+                                update_race(2, CRIME_TYPE);
+                                update_sex(2, CRIME_TYPE);
+                            }
+                                        })
+                    //.on('click', click_map);
+
+            });    
+        });
+        
+        // pie chart of crime type
+        d3.json('../data/data_list_for_crime_type.json').then(function(data){
+            // console.log(data)
+            var sorted_data = data.sort((x, y) => y.cnt - x.cnt)
+            var pie = d3.pie().value(function(d) { 
+                    return d.cnt;});
+            console.log(pie(sorted_data));
+
+            var arcs = pieChart.selectAll("arc")
+                .data(pie(sorted_data))
+                .enter()
+                .append("g")
+                .attr("class", "arc")
+                // .on('mouseover', function(event, v){
+                //     console.log(this)
+                //     d3.select(event.currentTarget)
+                //       	.transition()
+                //   	  	.duration(duration)
+                //   		.attr('transform', calcTranslate(v, 6));
+                //   	d3.select(event.currentTarget).select('path')
+                //   		.transition()
+                //   		.duration(duration)
+                //   		.attr('stroke', 'rgba(100, 100, 100, 0.2)')
+                //   		.attr('stroke-width', 4);
+                //     update_age(2, v.data.type);
+                //     update_map(v.data.type);
+                //     })
+                // .on('mouseout', function(d){
+                //     d3.select(event.currentTarget)
+                //   	.transition()
+                //   	.duration(duration)
+                //   	.attr('transform', 'translate(0, 0)');
+                //     d3.select(event.currentTarget).select('path')
+                //             .transition()
+                //             .duration(duration)
+                //             .attr('stroke', 'white')
+                //             .attr('stroke-width', 1);
+                //     reset_map();
+                //     reset_age();
+                // })
+                .on('click', function(event, v){    
+                    //console.log(v);
+                    CRIME_TYPE = v.data.type
+                    highlightArc(v.data.type)
+                    update_map(v.data.type);
+                    update_age(2, v.data.type);
+                    update_race(2, v.data.type);
+                    update_sex(2, v.data.type);
+                    });
+            
+            // define label
+            var label = d3.arc()
+            .outerRadius(OutterRadius)
+            .innerRadius(InnerRadius);
+            
+            //Draw arc paths
+            arcs.append("path")
+                .attr("fill", function(d, i) {
+                return pieColor(i);
+                })
+                .attr("d", arc);
+            
+            // console.log(arcs);
+            //Draw legend
+            // Add one dot in the legend for each name.
+            var size = 20
+            const labels = sorted_data.map(x => x.type)
+            svg.selectAll("mydots")
+            .data(labels)
+            .enter()
+            .append("rect")
+                .attr("x", PieMargin.left + 150)
+                .attr("y", function(d,i){ return PieMargin.top - 50 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+                .attr("width", size)
+                .attr("height", size)
+                .style("fill", function(i, d){ return pieColor(i)})
+
+            // Add one dot in the legend for each name.
+            svg.selectAll("mylabels")
+            .data(labels)
+            .enter()
+            .append("text")
+                .attr("x", PieMargin.left + 150 + size*1.2)
+                .attr("y", function(d,i){ return PieMargin.top - 50 + i*(size+5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+                .style("fill", function(d, i){ return pieColor(i)})
+                .text(function(d){ return d})
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")    
+        });
+
+        // bar plot for age group
+        d3.json('../data/data_list_for_age_group.json').then(function(data){
+            // console.log(data);
+            // sets domain
+            xScaleAge.domain(data.map(function(d) { return d.type; }));
+            yScaleAge.domain([0, d3.max(data, function(d) { return d.cnt;})]);
+
+            // draw axes
+            BarForAge.append("g")
+                .attr("transform", "translate(0," + BarHeight + ")")
+                .call(d3.axisBottom(xScaleAge))
+                .append("text")
+                .attr("y", BarHeight - 420)
+                .attr("x", BarWidth / 2)
+                .attr("text-anchor", "end")
+                .attr("stroke", "black")
+                .text("Age Group")
+                .style("font-size", "13px");
+
+            BarForAge.append("g")
+                .attr("class", "yAxis")
+                .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+                return d;
+                }).ticks());
+            
+            BarForAge.selectAll(".bar")
+              .data(data)
+              .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d) { return xScaleAge(d.type); })
+                .attr("y", function(d) { return yScaleAge(d.cnt); })
+                .attr("width", xScaleAge.bandwidth())
+                .attr("height", function(d) { return BarHeight - yScaleAge(d.cnt); })
+                .style("fill", "#ECBA40");
+
+        });
+
+        // bar plot for race
+        d3.json('../data/data_list_for_perp_race.json').then(function(data){
+            // console.log(data);
+            // sets domain
+            xScaleRace.domain(data.map(function(d) { return d.type; }));
+            yScaleRace.domain([0, d3.max(data, function(d) { return d.cnt;})]);
+
+            // draw axes
+            BarForRace.append("g")
+                .attr("transform", "translate(0," + BarHeight + ")")
+                .call(d3.axisBottom(xScaleRace))
+                .selectAll('text')
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "rotate(-65)");
+            
+            // x axis name
+            BarForRace.append("g")
+                .attr("transform", "translate(0," + BarHeight + ")")
+                .append("text")
+                .attr("y", BarHeight - 420)
+                .attr("x", BarWidth / 2)
+                .attr("text-anchor", "end")
+                .attr("stroke", "black")
+                .text("Race")
+                .style("font-size", "15px");
+
+            BarForRace.append("g")
+                .attr("class", "yAxis")
+                .call(d3.axisLeft(yScaleRace).tickFormat(function(d){
+                return d;
+                }).ticks());
+            
+            BarForRace.selectAll(".bar")
+              .data(data)
+              .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d) { return xScaleRace(d.type); })
+                .attr("y", function(d) { return yScaleRace(d.cnt); })
+                .attr("width", xScaleRace.bandwidth())
+                .attr("height", function(d) { return BarHeight - yScaleRace(d.cnt); })
+                .style("fill", "#EA6142");
+
+        });
+
+        // bar plot for sex
+        d3.json('../data/data_list_for_perp_sex.json').then(function(data){
+            // console.log(data);
+            // sets domain
+            xScaleSex.domain(data.map(function(d) { return d.type; }));
+            yScaleSex.domain([0, d3.max(data, function(d) { return d.cnt;})]);
+
+            // draw axes
+            BarForSex.append("g")
+                .attr("transform", "translate(0," + BarHeight + ")")
+                .call(d3.axisBottom(xScaleSex))
+                .append("text")
+                .attr("y", BarHeight - 420)
+                .attr("x", BarWidth / 2)
+                .attr("text-anchor", "end")
+                .attr("stroke", "black")
+                .text("Sex")
+                .style("font-size", "13px");
+
+            BarForSex.append("g")
+                .attr("class", "yAxis")
+                .call(d3.axisLeft(yScaleSex).tickFormat(function(d){
+                return d;
+                }).ticks());
+            
+            BarForSex.selectAll(".bar")
+              .data(data)
+              .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function(d) { return xScaleSex(d.type); })
+                .attr("y", function(d) { return yScaleSex(d.cnt); })
+                .attr("width", xScaleSex.bandwidth())
+                .attr("height", function(d) { return BarHeight - yScaleSex(d.cnt); })
+                .style("fill", "#7093DB");
+
+        });
+
+        function zoomed(event) {
+            const {transform} = event;
+            nycMap.attr("transform", transform);
+            nycMap.attr("stroke-width", 1 / transform.k);
+            }
+        
+        function update_pie(precinct_id){
+            d3.json('../data/data_list_for_crime_type.json').then(function(data){
+                // update value function of pie
+                var pie = d3.pie().value(function(d){ 
+                        return d.precinct_map[precinct_id];});
+                var sorted_data = data.sort((x, y) => y.cnt - x.cnt)
+
+                // update data bound to arc
+                var arcs = pieChart.selectAll(".arc")
+                                     .data(pie(sorted_data));
+                
+                //Draw arc paths
+                arcs.select("path")
+                    .attr("fill", function(d, i) {
+                    return pieColor(i);
+                    })
+                    .attr("d", arc); 
+             })
+         }
+
+        function reset_pie_partial(){
+            d3.json('../data/data_list_for_crime_type.json').then(function(data){
+                // console.log(data)
+                var pie = d3.pie().value(function(d){ 
+                        return d.cnt;});
+                var sorted_data = data.sort((x, y) => y.cnt - x.cnt)
+
+                var arcs = pieChart.selectAll(".arc")
+                                    .data(pie(sorted_data));
+                
+                //Draw arc paths
+                arcs.select("path")
+                    .attr("fill", function(d, i) {
+                    return pieColor(i);
+                    })
+                    .attr("d", arc); 
+             })
+         }
+
+         function reset_pie_all(){
+            d3.json('../data/data_list_for_crime_type.json').then(function(data){
+                // console.log(data)
+                CRIME_TYPE = 'all';
+                var sorted_data = data.sort((x, y) => y.cnt - x.cnt)
+                var pie = d3.pie().value(function(d) { 
+                        return d.cnt;});
+                console.log(pie(sorted_data));
+                
+                pieChart.selectAll(".arc").remove();
+                var arcs = pieChart.selectAll("arc")
+                    .data(pie(sorted_data))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .on('click', function(event, v){
+                        //reset_pie_all();
+                        // d3.select(event.currentTarget)
+                        //     .transition()
+                        //     .duration(duration)
+                        //     .attr('transform', calcTranslate(v, 6));
+                        // d3.select(event.currentTarget).select('path')
+                        //     .transition()
+                        //     .duration(duration)
+                        //     .attr('stroke', 'rgba(100, 100, 100, 0.2)')
+                        //     .attr('stroke-width', 4);
+                        CRIME_TYPE = v.data.type
+                        highlightArc(v.data.type)
+                        update_age(2, v.data.type);
+                        update_race(2, v.data.type);
+                        update_sex(2, v.data.type);
+                        update_map(v.data.type);
+                        });
+                
+                    //Draw arc paths
+                    arcs.append("path")
+                        .attr("fill", function(d, i) {
+                        return pieColor(i);
+                        })
+                        .attr("d", arc);
+            })
+        }
+        
+        function update_map(crime_type){
+                d3.json('../data/police_precincts.geo.json').then(function(geo_data){
+                    // console.log(geo_data)
+                    d3.json('../data/cnt_group_by_precinct.json').then(function(data){
+                        var sum_cnt_list = [];
+                        // calculae sum values for each precinct
+                        for (key in data){
+                            sum_cnt_list.push(data[key][crime_type]);
+                        }
+                        maxCnt = d3.max(sum_cnt_list);
+                        minCnt = d3.min(sum_cnt_list);
+
+                        nycMap.selectAll('path')
+                            .style('fill', CrimeColorMap[crime_type])
+                            .style('fill-opacity', function(d){
+                                if (data.hasOwnProperty(d.properties.Precinct.toString())){
+                                    return (data[d.properties.Precinct.toString()][crime_type] - minCnt) / (maxCnt - minCnt);
+                                }
+                                return 0;
+                            })
+
+                    });    
+            });
+        }
+
+        function reset_map(){
+            d3.json('../data/police_precincts.geo.json').then(function(geo_data){
+                    // console.log(geo_data)
+                    d3.json('../data/cnt_group_by_precinct.json').then(function(data){
+                        var sum_cnt_list = [];
+                        // calculae sum values for each precinct
+                        for (key in data){
+                            sum_cnt_list.push(data[key]['sum']);
+                        }
+                        maxCnt = d3.max(sum_cnt_list);
+                        minCnt = d3.min(sum_cnt_list);
+
+                        nycMap.selectAll('path')
+                            .style('fill', '#E13C19')
+                            .style('fill-opacity', function(d){
+                                if (data.hasOwnProperty(d.properties.Precinct.toString())){
+                                    return (data[d.properties.Precinct.toString()]['sum'] - minCnt) / (maxCnt - minCnt);
+                                }
+                                return 0;
+                            })
+
+                    });    
+            });
+        }
+
+        function update_age(mode, key){
+            d3.json('../data/data_list_for_age_group.json').then(function(data){
+                // change x, y scale domain
+                // console.log(data);
+                // console.log(key);
+                if (mode == 1){
+                    yScaleAge.domain([0, d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.precinct_type_map[key]));
+                    })]);
+                    BarForAge.select(".yAxis")
+                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForAge.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
+                                    return yScaleAge(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
+                                    return BarHeight - yScaleAge(cnt);})
+                    }
+                if (mode == 2){
+                    yScaleAge.domain([0, d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.type_precinct_map[key]));
+                    })]);
+                    BarForAge.select(".yAxis")
+                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForAge.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
+                                    return yScaleAge(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
+                                    return BarHeight - yScaleAge(cnt);})
+                }
+                if (mode == 3){
+                    //console.log('success get mode 3');
+                    var type = key[0], precinct = key[1];
+                    yScaleAge.domain([0, d3.max(data, function(d){ 
+                        return d.type_precinct_map[type][precinct];
+                    })]);
+                    BarForAge.select(".yAxis")
+                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForAge.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d.type_precinct_map[type][precinct];
+                                    return yScaleAge(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d.type_precinct_map[type][precinct];
+                                    return BarHeight - yScaleAge(cnt);})
+                }
+            })
+            
+        }
+
+        function reset_age(){
+            d3.json('../data/data_list_for_age_group.json').then(function(data){
+                yScaleAge.domain([0, d3.max(data, function(d) { return d.cnt;})]);
+                BarForAge.select(".yAxis")
+                        .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+                                    return d;
+                                }).ticks());
+                                
+                BarForAge.selectAll("rect")
+                            .attr("y", function(d) {
+                                        return yScaleAge(d.cnt);
+                                    })
+                            .attr("height", function(d) { 
+                                        return BarHeight - yScaleAge(d.cnt);});
+            });      
+        }
+
+        function update_race(mode, key){
+            d3.json('../data/data_list_for_perp_race.json').then(function(data){
+                // change x, y scale domain
+                // console.log(data);
+                // console.log(key);
+                if (mode == 1){
+                    yScaleRace.domain([0, d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.precinct_type_map[key]));
+                    })]);
+                    console.log(d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.precinct_type_map[key]));
+                    }));
+                    BarForRace.select(".yAxis")
+                             .call(d3.axisLeft(yScaleRace).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForRace.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
+                                    return yScaleRace(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
+                                    return BarHeight - yScaleRace(cnt);})
+                    }
+                if (mode == 2){
+                    yScaleRace.domain([0, d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.type_precinct_map[key]));
+                    })]);
+                    BarForRace.select(".yAxis")
+                             .call(d3.axisLeft(yScaleRace).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForRace.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
+                                    return yScaleRace(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
+                                    return BarHeight - yScaleRace(cnt);})
+                }
+                if (mode == 3){
+                    //console.log('success get mode 3');
+                    var type = key[0], precinct = key[1];
+                    yScaleRace.domain([0, d3.max(data, function(d){ 
+                        return d.type_precinct_map[type][precinct];
+                    })]);
+                    BarForRace.select(".yAxis")
+                             .call(d3.axisLeft(yScaleRace).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForRace.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d.type_precinct_map[type][precinct];
+                                    return yScaleRace(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d.type_precinct_map[type][precinct];
+                                    return BarHeight - yScaleRace(cnt);})
+                }
+            })
+            
+        }
+
+        function reset_race(){
+            d3.json('../data/data_list_for_perp_race.json').then(function(data){
+                yScaleRace.domain([0, d3.max(data, function(d) { return d.cnt;})]);
+                BarForRace.select(".yAxis")
+                        .call(d3.axisLeft(yScaleRace).tickFormat(function(d){
+                                    return d;
+                                }).ticks());
+                                
+                BarForRace.selectAll("rect")
+                            .attr("y", function(d) {
+                                        return yScaleRace(d.cnt);
+                                    })
+                            .attr("height", function(d) { 
+                                        return BarHeight - yScaleRace(d.cnt);});
+            });      
+        }
+
+        function update_sex(mode, key){
+            d3.json('../data/data_list_for_perp_sex.json').then(function(data){
+                // change x, y scale domain
+                // console.log(data);
+                // console.log(key);
+                if (mode == 1){
+                    yScaleSex.domain([0, d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.precinct_type_map[key]));
+                    })]);
+                    BarForSex.select(".yAxis")
+                             .call(d3.axisLeft(yScaleSex).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForSex.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
+                                    return yScaleSex(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
+                                    return BarHeight - yScaleSex(cnt);})
+                    }
+                if (mode == 2){
+                    yScaleSex.domain([0, d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.type_precinct_map[key]));
+                    })]);
+                    BarForSex.select(".yAxis")
+                             .call(d3.axisLeft(yScaleSex).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForSex.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
+                                    return yScaleSex(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
+                                    return BarHeight - yScaleSex(cnt);})
+                }
+                if (mode == 3){
+                    //console.log('success get mode 3');
+                    var type = key[0], precinct = key[1];
+                    yScaleSex.domain([0, d3.max(data, function(d){ 
+                        return d.type_precinct_map[type][precinct];
+                    })]);
+                    BarForSex.select(".yAxis")
+                             .call(d3.axisLeft(yScaleSex).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForSex.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d.type_precinct_map[type][precinct];
+                                    return yScaleSex(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d.type_precinct_map[type][precinct];
+                                    return BarHeight - yScaleSex(cnt);})
+                }
+            })
+            
+        }
+
+        function reset_sex(){
+            d3.json('../data/data_list_for_perp_sex.json').then(function(data){
+                yScaleSex.domain([0, d3.max(data, function(d) { return d.cnt;})]);
+                BarForSex.select(".yAxis")
+                        .call(d3.axisLeft(yScaleSex).tickFormat(function(d){
+                                    return d;
+                                }).ticks());
+                                
+                BarForSex.selectAll("rect")
+                            .attr("y", function(d) {
+                                        return yScaleSex(d.cnt);
+                                    })
+                            .attr("height", function(d) { 
+                                        return BarHeight - yScaleSex(d.cnt);});
+            });      
+        }
+
+        function highlightArc(crime_type){
+            pieChart.selectAll('.arc')
+                    .select('path')
+                    .attr('fill-opacity', function(d){
+                        if (d.data.type == crime_type){
+                            return 1;
+                        }
+                        return 0.35;
+                    })
+        }
+
+        function calcTranslate(data, move = 5) {
+            const moveAngle = data.startAngle + ((data.endAngle - data.startAngle) / 2);
+            return `translate(${- move * Math.cos(moveAngle + Math.PI / 2)}, ${- move * Math.sin(moveAngle + Math.PI / 2)})`;
+        }
+
+        function click_map(d) {
+            var x, y, k;
+            console.log(d);
+            if (d && centered !== d) {
+                var centroid = pathGenerator.centroid(d);
+                console.log(centroid)
+                x = centroid[0];
+                y = centroid[1];
+                k = 4;
+                centered = d;
+            } else {
+                x = MapWidth / 2;
+                y = MapHeight / 2;
+                k = 1;
+                centered = null;
+            }
+
+            nycMap.selectAll("path")
+                .classed("active", centered && function(d) { return d === centered; });
+
+            nycMap.transition()
+                .duration(750)
+                .attr("transform", "translate(" + MapWidth / 2 + "," + MapHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+                .style("stroke-width", 1.5 / k + "px");
+         }
+        </script>
+    </body>
+</html>

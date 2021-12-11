@@ -1,0 +1,618 @@
+{
+    "1": {
+        "ASSAULT": 5921,
+        "MURDER": 29,
+        "ROBBERY": 316,
+        "SEX CRIMES": 134,
+        "THEFT": 12144,
+        "sum": 18544
+    },
+    "5": {
+        "ASSAULT": 8535,
+        "MURDER": 228,
+        "ROBBERY": 1282,
+        "SEX CRIMES": 358,
+        "THEFT": 10955,
+        "sum": 21358
+    },
+    "6": {
+        "ASSAULT": 4540,
+        "MURDER": 24,
+        "ROBBERY": 1411,
+        "SEX CRIMES": 121,
+        "THEFT": 8035,
+        "sum": 14131
+    },
+    "7": {
+        "ASSAULT": 5771,
+        "MURDER": 39,
+        "ROBBERY": 635,
+        "SEX CRIMES": 129,
+        "THEFT": 4032,
+        "sum": 10606
+    },
+    "9": {
+        "ASSAULT": 5746,
+        "MURDER": 35,
+        "ROBBERY": 576,
+        "SEX CRIMES": 144,
+        "THEFT": 7006,
+        "sum": 13507
+    },
+    "10": {
+        "ASSAULT": 3595,
+        "MURDER": 26,
+        "ROBBERY": 504,
+        "SEX CRIMES": 97,
+        "THEFT": 4509,
+        "sum": 8731
+    },
+    "13": {
+        "ASSAULT": 5656,
+        "MURDER": 33,
+        "ROBBERY": 697,
+        "SEX CRIMES": 311,
+        "THEFT": 15944,
+        "sum": 22641
+    },
+    "14": {
+        "ASSAULT": 9183,
+        "MURDER": 42,
+        "ROBBERY": 951,
+        "SEX CRIMES": 445,
+        "THEFT": 43896,
+        "sum": 54517
+    },
+    "17": {
+        "ASSAULT": 2842,
+        "MURDER": 6,
+        "ROBBERY": 236,
+        "SEX CRIMES": 107,
+        "THEFT": 3849,
+        "sum": 7040
+    },
+    "18": {
+        "ASSAULT": 6932,
+        "MURDER": 28,
+        "ROBBERY": 693,
+        "SEX CRIMES": 186,
+        "THEFT": 14075,
+        "sum": 21914
+    },
+    "19": {
+        "ASSAULT": 4008,
+        "MURDER": 9,
+        "ROBBERY": 505,
+        "SEX CRIMES": 146,
+        "THEFT": 10348,
+        "sum": 15016
+    },
+    "20": {
+        "ASSAULT": 3004,
+        "MURDER": 10,
+        "ROBBERY": 303,
+        "SEX CRIMES": 124,
+        "THEFT": 5852,
+        "sum": 9293
+    },
+    "22": {
+        "ASSAULT": 352,
+        "MURDER": 1,
+        "ROBBERY": 118,
+        "SEX CRIMES": 21,
+        "THEFT": 283,
+        "sum": 775
+    },
+    "23": {
+        "ASSAULT": 8490,
+        "MURDER": 98,
+        "ROBBERY": 1028,
+        "SEX CRIMES": 315,
+        "THEFT": 5437,
+        "sum": 15368
+    },
+    "24": {
+        "ASSAULT": 3996,
+        "MURDER": 28,
+        "ROBBERY": 712,
+        "SEX CRIMES": 116,
+        "THEFT": 5321,
+        "sum": 10173
+    },
+    "25": {
+        "ASSAULT": 9073,
+        "MURDER": 150,
+        "ROBBERY": 987,
+        "SEX CRIMES": 1309,
+        "THEFT": 12042,
+        "sum": 23561
+    },
+    "26": {
+        "ASSAULT": 3381,
+        "MURDER": 51,
+        "ROBBERY": 608,
+        "SEX CRIMES": 123,
+        "THEFT": 5473,
+        "sum": 9636
+    },
+    "28": {
+        "ASSAULT": 5543,
+        "MURDER": 60,
+        "ROBBERY": 856,
+        "SEX CRIMES": 156,
+        "THEFT": 9263,
+        "sum": 15878
+    },
+    "30": {
+        "ASSAULT": 5640,
+        "MURDER": 79,
+        "ROBBERY": 769,
+        "SEX CRIMES": 215,
+        "THEFT": 4380,
+        "sum": 11083
+    },
+    "32": {
+        "ASSAULT": 9217,
+        "MURDER": 170,
+        "ROBBERY": 1032,
+        "SEX CRIMES": 273,
+        "THEFT": 5070,
+        "sum": 15762
+    },
+    "33": {
+        "ASSAULT": 6110,
+        "MURDER": 62,
+        "ROBBERY": 778,
+        "SEX CRIMES": 163,
+        "THEFT": 4683,
+        "sum": 11796
+    },
+    "34": {
+        "ASSAULT": 6953,
+        "MURDER": 88,
+        "ROBBERY": 937,
+        "SEX CRIMES": 173,
+        "THEFT": 4581,
+        "sum": 12732
+    },
+    "40": {
+        "ASSAULT": 16943,
+        "MURDER": 309,
+        "ROBBERY": 2250,
+        "SEX CRIMES": 486,
+        "THEFT": 16086,
+        "sum": 36074
+    },
+    "41": {
+        "ASSAULT": 16165,
+        "MURDER": 193,
+        "ROBBERY": 1969,
+        "SEX CRIMES": 1628,
+        "THEFT": 7195,
+        "sum": 27150
+    },
+    "42": {
+        "ASSAULT": 12689,
+        "MURDER": 280,
+        "ROBBERY": 1383,
+        "SEX CRIMES": 388,
+        "THEFT": 6233,
+        "sum": 20973
+    },
+    "43": {
+        "ASSAULT": 17349,
+        "MURDER": 134,
+        "ROBBERY": 2238,
+        "SEX CRIMES": 524,
+        "THEFT": 8310,
+        "sum": 28555
+    },
+    "44": {
+        "ASSAULT": 19795,
+        "MURDER": 320,
+        "ROBBERY": 2428,
+        "SEX CRIMES": 643,
+        "THEFT": 15898,
+        "sum": 39084
+    },
+    "45": {
+        "ASSAULT": 6313,
+        "MURDER": 90,
+        "ROBBERY": 897,
+        "SEX CRIMES": 209,
+        "THEFT": 5401,
+        "sum": 12910
+    },
+    "46": {
+        "ASSAULT": 15217,
+        "MURDER": 231,
+        "ROBBERY": 1862,
+        "SEX CRIMES": 629,
+        "THEFT": 7615,
+        "sum": 25554
+    },
+    "47": {
+        "ASSAULT": 14077,
+        "MURDER": 318,
+        "ROBBERY": 2062,
+        "SEX CRIMES": 408,
+        "THEFT": 6987,
+        "sum": 23852
+    },
+    "48": {
+        "ASSAULT": 13555,
+        "MURDER": 211,
+        "ROBBERY": 1957,
+        "SEX CRIMES": 348,
+        "THEFT": 5772,
+        "sum": 21843
+    },
+    "49": {
+        "ASSAULT": 8277,
+        "MURDER": 116,
+        "ROBBERY": 1201,
+        "SEX CRIMES": 289,
+        "THEFT": 5518,
+        "sum": 15401
+    },
+    "50": {
+        "ASSAULT": 4558,
+        "MURDER": 97,
+        "ROBBERY": 534,
+        "SEX CRIMES": 107,
+        "THEFT": 2173,
+        "sum": 7469
+    },
+    "52": {
+        "ASSAULT": 13885,
+        "MURDER": 207,
+        "ROBBERY": 1966,
+        "SEX CRIMES": 422,
+        "THEFT": 12671,
+        "sum": 29151
+    },
+    "60": {
+        "ASSAULT": 7221,
+        "MURDER": 81,
+        "ROBBERY": 1489,
+        "SEX CRIMES": 235,
+        "THEFT": 5374,
+        "sum": 14400
+    },
+    "61": {
+        "ASSAULT": 4970,
+        "MURDER": 48,
+        "ROBBERY": 927,
+        "SEX CRIMES": 158,
+        "THEFT": 4321,
+        "sum": 10424
+    },
+    "62": {
+        "ASSAULT": 5242,
+        "MURDER": 31,
+        "ROBBERY": 783,
+        "SEX CRIMES": 138,
+        "THEFT": 3750,
+        "sum": 9944
+    },
+    "63": {
+        "ASSAULT": 3917,
+        "MURDER": 51,
+        "ROBBERY": 682,
+        "SEX CRIMES": 148,
+        "THEFT": 3827,
+        "sum": 8625
+    },
+    "66": {
+        "ASSAULT": 3757,
+        "MURDER": 30,
+        "ROBBERY": 600,
+        "SEX CRIMES": 171,
+        "THEFT": 2547,
+        "sum": 7105
+    },
+    "67": {
+        "ASSAULT": 12692,
+        "MURDER": 81,
+        "ROBBERY": 1655,
+        "SEX CRIMES": 333,
+        "THEFT": 4695,
+        "sum": 19456
+    },
+    "68": {
+        "ASSAULT": 3470,
+        "MURDER": 25,
+        "ROBBERY": 392,
+        "SEX CRIMES": 104,
+        "THEFT": 3203,
+        "sum": 7194
+    },
+    "69": {
+        "ASSAULT": 5156,
+        "MURDER": 59,
+        "ROBBERY": 700,
+        "SEX CRIMES": 152,
+        "THEFT": 3317,
+        "sum": 9384
+    },
+    "70": {
+        "ASSAULT": 8041,
+        "MURDER": 115,
+        "ROBBERY": 1344,
+        "SEX CRIMES": 280,
+        "THEFT": 7208,
+        "sum": 16988
+    },
+    "71": {
+        "ASSAULT": 8214,
+        "MURDER": 71,
+        "ROBBERY": 1369,
+        "SEX CRIMES": 223,
+        "THEFT": 4393,
+        "sum": 14270
+    },
+    "72": {
+        "ASSAULT": 6651,
+        "MURDER": 53,
+        "ROBBERY": 1049,
+        "SEX CRIMES": 233,
+        "THEFT": 4341,
+        "sum": 12327
+    },
+    "73": {
+        "ASSAULT": 15043,
+        "MURDER": 180,
+        "ROBBERY": 1746,
+        "SEX CRIMES": 453,
+        "THEFT": 9882,
+        "sum": 27304
+    },
+    "75": {
+        "ASSAULT": 22663,
+        "MURDER": 182,
+        "ROBBERY": 3320,
+        "SEX CRIMES": 594,
+        "THEFT": 12987,
+        "sum": 39746
+    },
+    "76": {
+        "ASSAULT": 2695,
+        "MURDER": 30,
+        "ROBBERY": 367,
+        "SEX CRIMES": 73,
+        "THEFT": 1638,
+        "sum": 4803
+    },
+    "77": {
+        "ASSAULT": 8165,
+        "MURDER": 132,
+        "ROBBERY": 1764,
+        "SEX CRIMES": 1571,
+        "THEFT": 5176,
+        "sum": 16808
+    },
+    "78": {
+        "ASSAULT": 2430,
+        "MURDER": 11,
+        "ROBBERY": 474,
+        "SEX CRIMES": 69,
+        "THEFT": 5154,
+        "sum": 8138
+    },
+    "79": {
+        "ASSAULT": 9626,
+        "MURDER": 78,
+        "ROBBERY": 1357,
+        "SEX CRIMES": 214,
+        "THEFT": 8107,
+        "sum": 19382
+    },
+    "81": {
+        "ASSAULT": 7187,
+        "MURDER": 116,
+        "ROBBERY": 1182,
+        "SEX CRIMES": 166,
+        "THEFT": 6586,
+        "sum": 15237
+    },
+    "83": {
+        "ASSAULT": 10222,
+        "MURDER": 79,
+        "ROBBERY": 1406,
+        "SEX CRIMES": 298,
+        "THEFT": 5363,
+        "sum": 17368
+    },
+    "84": {
+        "ASSAULT": 6584,
+        "MURDER": 116,
+        "ROBBERY": 785,
+        "SEX CRIMES": 1159,
+        "THEFT": 11751,
+        "sum": 20395
+    },
+    "88": {
+        "ASSAULT": 4087,
+        "MURDER": 38,
+        "ROBBERY": 795,
+        "SEX CRIMES": 115,
+        "THEFT": 4789,
+        "sum": 9824
+    },
+    "90": {
+        "ASSAULT": 5916,
+        "MURDER": 81,
+        "ROBBERY": 1070,
+        "SEX CRIMES": 153,
+        "THEFT": 6360,
+        "sum": 13580
+    },
+    "94": {
+        "ASSAULT": 3352,
+        "MURDER": 14,
+        "ROBBERY": 388,
+        "SEX CRIMES": 85,
+        "THEFT": 2960,
+        "sum": 6799
+    },
+    "100": {
+        "ASSAULT": 3846,
+        "MURDER": 61,
+        "ROBBERY": 367,
+        "SEX CRIMES": 182,
+        "THEFT": 2664,
+        "sum": 7120
+    },
+    "101": {
+        "ASSAULT": 6443,
+        "MURDER": 201,
+        "ROBBERY": 724,
+        "SEX CRIMES": 330,
+        "THEFT": 2365,
+        "sum": 10063
+    },
+    "102": {
+        "ASSAULT": 10017,
+        "MURDER": 111,
+        "ROBBERY": 983,
+        "SEX CRIMES": 402,
+        "THEFT": 4193,
+        "sum": 15706
+    },
+    "103": {
+        "ASSAULT": 13061,
+        "MURDER": 165,
+        "ROBBERY": 1848,
+        "SEX CRIMES": 375,
+        "THEFT": 9316,
+        "sum": 24765
+    },
+    "104": {
+        "ASSAULT": 8760,
+        "MURDER": 51,
+        "ROBBERY": 837,
+        "SEX CRIMES": 331,
+        "THEFT": 5512,
+        "sum": 15491
+    },
+    "105": {
+        "ASSAULT": 9312,
+        "MURDER": 103,
+        "ROBBERY": 1115,
+        "SEX CRIMES": 363,
+        "THEFT": 3024,
+        "sum": 13917
+    },
+    "106": {
+        "ASSAULT": 7640,
+        "MURDER": 77,
+        "ROBBERY": 1024,
+        "SEX CRIMES": 275,
+        "THEFT": 4759,
+        "sum": 13775
+    },
+    "107": {
+        "ASSAULT": 5419,
+        "MURDER": 56,
+        "ROBBERY": 1111,
+        "SEX CRIMES": 222,
+        "THEFT": 3867,
+        "sum": 10675
+    },
+    "108": {
+        "ASSAULT": 5944,
+        "MURDER": 37,
+        "ROBBERY": 510,
+        "SEX CRIMES": 238,
+        "THEFT": 2969,
+        "sum": 9698
+    },
+    "109": {
+        "ASSAULT": 9523,
+        "MURDER": 69,
+        "ROBBERY": 1748,
+        "SEX CRIMES": 395,
+        "THEFT": 8816,
+        "sum": 20551
+    },
+    "110": {
+        "ASSAULT": 9353,
+        "MURDER": 62,
+        "ROBBERY": 1321,
+        "SEX CRIMES": 391,
+        "THEFT": 10917,
+        "sum": 22044
+    },
+    "111": {
+        "ASSAULT": 2678,
+        "MURDER": 10,
+        "ROBBERY": 305,
+        "SEX CRIMES": 80,
+        "THEFT": 1603,
+        "sum": 4676
+    },
+    "112": {
+        "ASSAULT": 3047,
+        "MURDER": 10,
+        "ROBBERY": 266,
+        "SEX CRIMES": 1833,
+        "THEFT": 5903,
+        "sum": 11059
+    },
+    "113": {
+        "ASSAULT": 13040,
+        "MURDER": 258,
+        "ROBBERY": 1127,
+        "SEX CRIMES": 468,
+        "THEFT": 4681,
+        "sum": 19574
+    },
+    "114": {
+        "ASSAULT": 10802,
+        "MURDER": 125,
+        "ROBBERY": 1186,
+        "SEX CRIMES": 333,
+        "THEFT": 5550,
+        "sum": 17996
+    },
+    "115": {
+        "ASSAULT": 13138,
+        "MURDER": 80,
+        "ROBBERY": 1350,
+        "SEX CRIMES": 614,
+        "THEFT": 6182,
+        "sum": 21364
+    },
+    "120": {
+        "ASSAULT": 13153,
+        "MURDER": 172,
+        "ROBBERY": 1603,
+        "SEX CRIMES": 654,
+        "THEFT": 5396,
+        "sum": 20978
+    },
+    "121": {
+        "ASSAULT": 4220,
+        "MURDER": 47,
+        "ROBBERY": 298,
+        "SEX CRIMES": 159,
+        "THEFT": 4394,
+        "sum": 9118
+    },
+    "122": {
+        "ASSAULT": 5079,
+        "MURDER": 26,
+        "ROBBERY": 433,
+        "SEX CRIMES": 142,
+        "THEFT": 3878,
+        "sum": 9558
+    },
+    "123": {
+        "ASSAULT": 2656,
+        "MURDER": 6,
+        "ROBBERY": 99,
+        "SEX CRIMES": 63,
+        "THEFT": 1756,
+        "sum": 4580
+    }
+}
