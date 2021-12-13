@@ -1,40 +1,43 @@
-# Data sources
+# DATA SOURCE
 
-## Check Data
-```{r}
-df <- read.csv('data/crime_data.csv')
-summary(df)
-```
-```{r, fig.width=14, fig.height=14}
-## load my functions and data
-library(ggplot2)
-library(tidyverse)
-library(patchwork)
-source('missing_value_vis.R')
-nyc_crime_sample = read_csv('data/crime_data.csv')
-## draw missing plot with count
-main_missing_plot(nyc_crime_sample, F)
-```
+## DATA SOURCE DESCRIPTION
 
-```{r}
-### process missing value
-### As all missing values occur in characteristics columns
-### We choose to impute them using a special string `UNKNOWN`
+### NYPD Complaint Data
+Oliver was responsible for collecting and preprocessing our main dataset, “NYPD Complaint Data”, which was collected from the NYC Open Data which is published by New York City agencies and other partners.
 
-df_fill_missing <- gsub("UNKNOWN", "", df)
+### Covid Case by Date
+Sitong was responsible for collecting the supplementary dataset, ’Covid-Case-by-DATE’, which was collected from the https://github.com/nychealth/coronavirus-data/tree/master/trends#data-by-daycsv. This folder makes a daily update on the daily, weekly, and monthly data shown published by the Health Department.
 
-# check if we've filled all the missing
-sum(is.na(df_fill_missing))
-```
-```{r}
-## re-categorize crime type and location
-View(table(df$PREM_TYP_DESC))
-View(table(df$OFNS_DESC))
-```
+## DATA DESCRIPTION
+The Dataset “NYPD Complaint Data” includes all the complaint cases reported to New York City from way back to date until nowaday, to better serve the purpose of our project, we select the columns that upon our interest. 
 
-```{r}
-library(sjmisc)
-oldstring <- c("Hello", "Helo", "Hole", "Apple",
-               "Ape", "New", "Old", "System", "Systemic")
-newstring <- group_str(oldstring)
-```
+### Variables
+
+
+CMPLNT_NUM: Randomly generated persistent ID for each complaint 
+
+ADDR_PCT_CD: The precinct in which the incident occurred 
+
+BORO_NM: The name of the borough in which the incident occurred 
+
+COMPLNY_FR_DT: Exact date of occurrence for the reported event
+
+COMPLNT_FR_DT: Exact time of occurrence for the reported event
+
+LAW_CAT_CD: Level of offense: felony, misdemeanor, violation
+
+LOC_OF_OCCUR_DESC: Specific location of occurrence in or around the premises; inside, opposite of, front of, rear of
+
+OFNS_DESC: Description of offense corresponding with key code 
+
+PERM_TYP_DESC: Specific description of premises
+
+SUSP_AGE_GROUP, SUSP_RACE, SUSP_SEX: Description of the suspect 
+
+VIC_AGE_GROUP, VIC_RACE, VIC_SEX: Description of the Victim
+
+X_COORD_CD,Y_COORD_CD,Latitude,Longtitude,LAT_Lon,New Georeferenced Column: Description of the geological location
+
+## DATA ISSUE
+
+First, we found that there are limited data available for the year 2020 during the clean-up process. In the actual graphing part, we made some data transformations to hope to get rid of the potential bias caused by limited data.  Beyond this, we also found that there are significant unknown or empty entries in the dataset, especially in the biological description for both suspect and victim.

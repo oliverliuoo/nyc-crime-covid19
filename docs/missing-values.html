@@ -24,7 +24,7 @@
 <meta name="author" content="sq2239 Sitong Qian, hl3518 Hongou Liu" />
 
 
-<meta name="date" content="2021-11-19" />
+<meta name="date" content="2021-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="data-transformation.html"/>
 <link rel="next" href="results.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,68 +55,6 @@
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
-<style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -136,10 +75,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a><ul>
-<li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#visualize-missing-values"><i class="fa fa-check"></i><b>4.1</b> Visualize missing values</a></li>
-<li class="chapter" data-level="4.2" data-path="missing-values.html"><a href="missing-values.html#analysis"><i class="fa fa-check"></i><b>4.2</b> Analysis</a><ul>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#recategorize"><i class="fa fa-check"></i><b>3.1</b> Recategorize</a></li>
+<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#parse-date-and-time-stamp"><i class="fa fa-check"></i><b>3.2</b> Parse Date and Time Stamp</a></li>
+<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#aggregation"><i class="fa fa-check"></i><b>3.3</b> Aggregation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#visualize-missing-values"><i class="fa fa-check"></i><b>4.1</b> Visualize missing values</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="missing-values.html"><a href="missing-values.html#missing-count"><i class="fa fa-check"></i><b>4.1.1</b> Missing Count</a></li>
+<li class="chapter" data-level="4.1.2" data-path="missing-values.html"><a href="missing-values.html#missing-percentage"><i class="fa fa-check"></i><b>4.1.2</b> Missing Percentage</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="missing-values.html"><a href="missing-values.html#analysis"><i class="fa fa-check"></i><b>4.2</b> Analysis</a>
+<ul>
 <li class="chapter" data-level="4.2.1" data-path="missing-values.html"><a href="missing-values.html#sampling"><i class="fa fa-check"></i><b>4.2.1</b> Sampling</a></li>
 <li class="chapter" data-level="4.2.2" data-path="missing-values.html"><a href="missing-values.html#overview"><i class="fa fa-check"></i><b>4.2.2</b> Overview</a></li>
 <li class="chapter" data-level="4.2.3" data-path="missing-values.html"><a href="missing-values.html#feature"><i class="fa fa-check"></i><b>4.2.3</b> Feature</a></li>
@@ -147,9 +97,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.5" data-path="missing-values.html"><a href="missing-values.html#future-work"><i class="fa fa-check"></i><b>4.2.5</b> Future Work</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#load-dependency-and-data"><i class="fa fa-check"></i><b>5.1</b> Load dependency and data</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#distribution-single-feature"><i class="fa fa-check"></i><b>5.2</b> Distribution: Single Feature</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#crime-category-word-cloud"><i class="fa fa-check"></i><b>5.2.1</b> Crime Category: Word Cloud</a></li>
+<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#crime-category-recategorized-crimes-distribution"><i class="fa fa-check"></i><b>5.2.2</b> Crime Category: Recategorized Crime’s Distribution</a></li>
+<li class="chapter" data-level="5.2.3" data-path="results.html"><a href="results.html#location-of-occurence-word-cloud"><i class="fa fa-check"></i><b>5.2.3</b> Location of Occurence: Word Cloud</a></li>
+<li class="chapter" data-level="5.2.4" data-path="results.html"><a href="results.html#location-of-occurence-recategorized-locations-distribution"><i class="fa fa-check"></i><b>5.2.4</b> Location of Occurence: Recategorized Location’s Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#distribution-connection-between-features"><i class="fa fa-check"></i><b>5.3</b> Distribution &amp; Connection: Between Features</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#time-series-covid-19-vs-crime"><i class="fa fa-check"></i><b>5.4</b> Time Series: Covid-19 vs Crime</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#r-markdown"><i class="fa fa-check"></i><b>7.1</b> R Markdown</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -169,46 +134,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="missing-values" class="section level1">
+<div id="missing-values" class="section level1" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Missing values</h1>
-<div id="visualize-missing-values" class="section level2">
+<div id="visualize-missing-values" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Visualize missing values</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## load my functions and data</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(patchwork)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">source</span>(<span class="st">&#39;missing_value_vis.R&#39;</span>)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">nyc_crime_sample =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;data/sample_data.csv&#39;</span>)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">## draw missing plot with count</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">main_missing_plot</span>(nyc_crime_sample, F)</a></code></pre></div>
+<div id="missing-count" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Missing Count</h3>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">## draw missing plot with percentage</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">main_missing_plot</span>(nyc_crime_sample, T)</a></code></pre></div>
+</div>
+<div id="missing-percentage" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Missing Percentage</h3>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
 </div>
-<div id="analysis" class="section level2">
+</div>
+<div id="analysis" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Analysis</h2>
-<div id="sampling" class="section level3">
+<div id="sampling" class="section level3" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Sampling</h3>
 <p>For our final project, we apply the missing pattern function to our dataset. Since we are having a very large dataset(millions of rows), we chose to sample a relatively smaller proportion(2000 rows) of original dataset to visualize its missing pattern, as it will be more efficient in terms of time and won’t cause loss of generity.</p>
 </div>
-<div id="overview" class="section level3">
+<div id="overview" class="section level3" number="4.2.2">
 <h3><span class="header-section-number">4.2.2</span> Overview</h3>
 <p>We have in total 20 columns in our dataset, and from the missing plot above we see that nearly 65% of the rows are complete, and of all the features that have missing values, the missing percent are all below 25%. This suggests desirable integrity of our dataset.</p>
 </div>
-<div id="feature" class="section level3">
+<div id="feature" class="section level3" number="4.2.3">
 <h3><span class="header-section-number">4.2.3</span> Feature</h3>
 <p>From the graph, we are having a total of 7 features that contain missing value, there are susp_age_group, susp_race, susp_sex, loc_of_occur_desc,boro_nm, perm_typ_desc, pd_desc.
 We can conclude from the layout that the first four are denoted as the top four missing features, each of them has approximately 25% of the values been noted as missing. The latter three feature doesn’t seem that important.</p>
 </div>
-<div id="missing-pattern" class="section level3">
+<div id="missing-pattern" class="section level3" number="4.2.4">
 <h3><span class="header-section-number">4.2.4</span> Missing Pattern</h3>
 <p>From the main plot, there are in total of 9 missing patterns, which first three missing patterns dominate the missing pattern plot, generally speaking, they can be categorized as three types, description of the biological appearance of the suspect, location of the accidents that occurred, and combination of previous two.</p>
 <p>For the missing the biological description of the suspect, it actually makes sense, since it is expected to see in the reality that the suspect will cover his or her face, try his or her best to hide his or her biological appearance, to avoid being arrested by police.</p>
 <p>For the missing of the location of the accidents that occurred, it makes sense too, since people tend to realize what happened after it’s already happened, like if something has been stolen, the victim probably realized way after it’s happened, and having a hard time to exact the location.</p>
 <p>All the other missing patterns are almost ignorable.</p>
 </div>
-<div id="future-work" class="section level3">
+<div id="future-work" class="section level3" number="4.2.5">
 <h3><span class="header-section-number">4.2.5</span> Future Work</h3>
 <p>In our future work of processing missing values, we might choose between using imputation or taking them as a new category. We will determine it after further detailed exploration.</p>
 

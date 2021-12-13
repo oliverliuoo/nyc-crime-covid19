@@ -1,3 +1,19 @@
 # Interactive component
 
+## Vis-Hub Link
+We posted our D3 implementation on Vis-Hub in the following link.
+https://vizhub.com/oliverliuoo/28258f10917640989f851378e40abe60?edit=files
 
+## Explain
+There are three parts in our iteractive plot, a heatmap, a pie chart telling about the
+crime category and 3 barplots describing suspect profile. The interaction is embodied
+in two ways: 1. when we move the mouse on a specific precinct area on the heatmap, a tipsbar
+will show and the pie chart and barplots will change accordingly to this precinct. 2. when we
+click on a division of pie chart, that part will be highlighted and the heatmap with the barplot
+will change accordingly. Besides we set up a reset button to turn everything back to the initial state.
+
+## Insights
+In the interactive graph we can tell that the distribution of different types of crime differ in each precinct. 
+For example, it's seen that property crime(`THEFT`) is more likely to happen in the mid-town area, violent crime such as
+`MURDER` and `ASSAULT` are more likely to happen in Queen or Harlem. Also, we also get the information about suspect's profile
+of different crimes.
