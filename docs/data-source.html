@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 DATA SOURCE | EDAV: NYC Crime Covid-19 Analysis</title>
-  <meta name="description" content="Chapter 2 DATA SOURCE | EDAV: NYC Crime Covid-19 Analysis" />
+  <title>Chapter 2 Data Source | EDAV: NYC Crime Covid-19 Analysis</title>
+  <meta name="description" content="Chapter 2 Data Source | EDAV: NYC Crime Covid-19 Analysis" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 DATA SOURCE | EDAV: NYC Crime Covid-19 Analysis" />
+  <meta property="og:title" content="Chapter 2 Data Source | EDAV: NYC Crime Covid-19 Analysis" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 DATA SOURCE | EDAV: NYC Crime Covid-19 Analysis" />
+  <meta name="twitter:title" content="Chapter 2 Data Source | EDAV: NYC Crime Covid-19 Analysis" />
   
   
   
@@ -74,7 +74,7 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-source.html"><a href="data-source.html"><i class="fa fa-check"></i><b>2</b> DATA SOURCE</a>
+<li class="chapter" data-level="2" data-path="data-source.html"><a href="data-source.html"><i class="fa fa-check"></i><b>2</b> Data Source</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="data-source.html"><a href="data-source.html#data-source-description"><i class="fa fa-check"></i><b>2.1</b> DATA SOURCE DESCRIPTION</a>
 <ul>
@@ -140,7 +140,10 @@
 </ul></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#r-markdown"><i class="fa fa-check"></i><b>7.1</b> R Markdown</a></li>
+<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#limitations"><i class="fa fa-check"></i><b>7.1</b> Limitations</a></li>
+<li class="chapter" data-level="7.2" data-path="conclusion.html"><a href="conclusion.html#future-work-1"><i class="fa fa-check"></i><b>7.2</b> Future work</a></li>
+<li class="chapter" data-level="7.3" data-path="conclusion.html"><a href="conclusion.html#lesson-learned"><i class="fa fa-check"></i><b>7.3</b> Lesson learned</a></li>
+<li class="chapter" data-level="7.4" data-path="conclusion.html"><a href="conclusion.html#r-markdown"><i class="fa fa-check"></i><b>7.4</b> R Markdown</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -162,21 +165,21 @@
 
             <section class="normal" id="section-">
 <div id="data-source" class="section level1" number="2">
-<h1><span class="header-section-number">Chapter 2</span> DATA SOURCE</h1>
+<h1><span class="header-section-number">Chapter 2</span> Data Source</h1>
 <div id="data-source-description" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> DATA SOURCE DESCRIPTION</h2>
 <div id="nypd-complaint-data" class="section level3" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> NYPD Complaint Data</h3>
-<p>Oliver was responsible for collecting and preprocessing our main dataset, “NYPD Complaint Data”, which was collected from the NYC Open Data which is published by New York City agencies and other partners.</p>
+<p>Our main dataset, “NYPD Complaint Data”, which we download from the NYC Open Data. The ‘NYPD Complaint Data’ is collected by New York City agencies and other partners.</p>
 </div>
 <div id="covid-case-by-date" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Covid Case by Date</h3>
-<p>Sitong was responsible for collecting the supplementary dataset, ’Covid-Case-by-DATE’, which was collected from the <a href="https://github.com/nychealth/coronavirus-data/tree/master/trends#data-by-daycsv" class="uri">https://github.com/nychealth/coronavirus-data/tree/master/trends#data-by-daycsv</a>. This folder makes a daily update on the daily, weekly, and monthly data shown published by the Health Department.</p>
+<p>The supplementary dataset, ’Covid-Case-by-DATE’, which was download from the <a href="https://github.com/nychealth/coronavirus-data/tree/master/trends#data-by-daycsv" class="uri">https://github.com/nychealth/coronavirus-data/tree/master/trends#data-by-daycsv</a>. This folder makes a daily update on the daily, weekly, and monthly data shown published by the Health Department. The group of the the githup contributor was responsible for collecting the data.</p>
 </div>
 </div>
 <div id="data-description" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> DATA DESCRIPTION</h2>
-<p>The Dataset “NYPD Complaint Data” includes all the complaint cases reported to New York City from way back to date until nowaday, to better serve the purpose of our project, we select the columns that upon our interest.</p>
+<p>The Dataset “NYPD Complaint Data” includes all the complaint cases reported to New York City from way back to date until nowaday, it has in total of 323,817 rows, and 36 columns, and to better serve the purpose of our project, we select the columns that upon our interest.</p>
 <div id="variables" class="section level3" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Variables</h3>
 <p>CMPLNT_NUM: Randomly generated persistent ID for each complaint</p>

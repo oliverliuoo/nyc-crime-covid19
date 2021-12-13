@@ -4,12 +4,15 @@ book link: https://oliverliuoo.github.io/nyc-crime-covid19/
 ### Introduction
 We will try to answer some of the following questions that we have interest in.
 
-1. Geological disparity of crime rate has always existed among different districts in NYC. Under years of city construction, is there a decrease in crime rate in those districts with high crime rates?
+1. What are the main features of crimes in NYC. We mainly concern about five Ws: What? Where? When? Who? Whom? --- What happend? Where and when did it happen? Who's more
+likely to be the victim and who's more likely to be the criminal? We hope knowing these could
+keep us safer (at least feel safer) in this city.
 
 2. How did the Pandemic affect crimes in NYC? Is there a noticeable increase in the number of cases, or the severity of the crime?
 
-3. As vaccination rate increased in the past year, the city has gradually recovered from the pandemic, how does this affect the unemployment rate, and more importantly, is there a connection between the unemployment rate and NY crime?
-
+3. Geological disparity of crime rate has always existed among different districts in NYC. How did the
+crime rate differs in different area(precinct) in new york city? Is the occurence of different crimes
+evenly distributed among all precincts?
 ### Data Source
 Crime Statistics in NYPD (main dataset)
 
