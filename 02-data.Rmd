@@ -1,15 +1,17 @@
-# DATA SOURCE
+# Data Source 
 
 ## DATA SOURCE DESCRIPTION
 
 ### NYPD Complaint Data
-Oliver was responsible for collecting and preprocessing our main dataset, “NYPD Complaint Data”, which was collected from the NYC Open Data which is published by New York City agencies and other partners.
+
+Our main dataset, “NYPD Complaint Data”, which we download from the NYC Open Data. The 'NYPD Complaint Data' is collected by New York City agencies and other partners.
 
 ### Covid Case by Date
-Sitong was responsible for collecting the supplementary dataset, ’Covid-Case-by-DATE’, which was collected from the https://github.com/nychealth/coronavirus-data/tree/master/trends#data-by-daycsv. This folder makes a daily update on the daily, weekly, and monthly data shown published by the Health Department.
+The supplementary dataset, ’Covid-Case-by-DATE’, which was download from the https://github.com/nychealth/coronavirus-data/tree/master/trends#data-by-daycsv. This folder makes a daily update on the daily, weekly, and monthly data shown published by the Health Department. The group of the the githup contributor was responsible for collecting the data.
 
 ## DATA DESCRIPTION
-The Dataset “NYPD Complaint Data” includes all the complaint cases reported to New York City from way back to date until nowaday, to better serve the purpose of our project, we select the columns that upon our interest. 
+
+The Dataset “NYPD Complaint Data” includes all the complaint cases reported to New York City from way back to date until nowaday, it has in total of 323,817 rows, and 36 columns, and  to better serve the purpose of our project, we select the columns that upon our interest. 
 
 ### Variables
 

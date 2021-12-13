@@ -1,2 +1,19 @@
 # Conclusion
+## Limitations
+Although our visualization basically answered the questions we were interested in, there's still
+much room for improvement. First, the re-categorization of crime types and location might not be
+accurate enough, some crimes are not well categorized and lots of them are assigned to `OTHERS` in 
+our rules. Second, though we did learn some association between covid-19 and crime rate.  Just time series
+plot is not convincing enough. We might include more data like employment data to support more solid and concrete 
+analysis.
 
+## Future work
+We look forward to diving deeper into the connections between covid-19 and crimes. To
+do so we will collect more diverse data to try to bring insights from different perspectives.
+Also we hope to give finer classification of crimes and locations in the future.
+
+## Lesson learned
+The biggest lesson we learned is that, we really need to be "question-oriented" while
+doing visualizations. Always keep in mind the question we wanna answer, we want the visualization
+to help us answer actual questions we concern about but generate a fancy graph. Sometimes easy graph
+can answer much better your question than a complex and beautiful one.

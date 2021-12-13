@@ -24,7 +24,7 @@
 <meta name="author" content="sq2239 Sitong Qian, hl3518 Hongou Liu" />
 
 
-<meta name="date" content="2021-11-15" />
+<meta name="date" content="2021-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 
-<link rel="next" href="data-sources.html"/>
+<link rel="next" href="data-source.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -74,12 +74,74 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
-<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="2" data-path="data-source.html"><a href="data-source.html"><i class="fa fa-check"></i><b>2</b> DATA SOURCE</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-source.html"><a href="data-source.html#data-source-description"><i class="fa fa-check"></i><b>2.1</b> DATA SOURCE DESCRIPTION</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-source.html"><a href="data-source.html#nypd-complaint-data"><i class="fa fa-check"></i><b>2.1.1</b> NYPD Complaint Data</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-source.html"><a href="data-source.html#covid-case-by-date"><i class="fa fa-check"></i><b>2.1.2</b> Covid Case by Date</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-source.html"><a href="data-source.html#data-description"><i class="fa fa-check"></i><b>2.2</b> DATA DESCRIPTION</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-source.html"><a href="data-source.html#variables"><i class="fa fa-check"></i><b>2.2.1</b> Variables</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-source.html"><a href="data-source.html#data-issue"><i class="fa fa-check"></i><b>2.3</b> DATA ISSUE</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#recategorize"><i class="fa fa-check"></i><b>3.1</b> Recategorize</a></li>
+<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#parse-date-and-time-stamp"><i class="fa fa-check"></i><b>3.2</b> Parse Date and Time Stamp</a></li>
+<li class="chapter" data-level="3.3" data-path="data-transformation.html"><a href="data-transformation.html#aggregation"><i class="fa fa-check"></i><b>3.3</b> Aggregation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#visualize-missing-values"><i class="fa fa-check"></i><b>4.1</b> Visualize missing values</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="missing-values.html"><a href="missing-values.html#missing-count"><i class="fa fa-check"></i><b>4.1.1</b> Missing Count</a></li>
+<li class="chapter" data-level="4.1.2" data-path="missing-values.html"><a href="missing-values.html#missing-percentage"><i class="fa fa-check"></i><b>4.1.2</b> Missing Percentage</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="missing-values.html"><a href="missing-values.html#analysis"><i class="fa fa-check"></i><b>4.2</b> Analysis</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="missing-values.html"><a href="missing-values.html#sampling"><i class="fa fa-check"></i><b>4.2.1</b> Sampling</a></li>
+<li class="chapter" data-level="4.2.2" data-path="missing-values.html"><a href="missing-values.html#overview"><i class="fa fa-check"></i><b>4.2.2</b> Overview</a></li>
+<li class="chapter" data-level="4.2.3" data-path="missing-values.html"><a href="missing-values.html#feature"><i class="fa fa-check"></i><b>4.2.3</b> Feature</a></li>
+<li class="chapter" data-level="4.2.4" data-path="missing-values.html"><a href="missing-values.html#missing-pattern"><i class="fa fa-check"></i><b>4.2.4</b> Missing Pattern</a></li>
+<li class="chapter" data-level="4.2.5" data-path="missing-values.html"><a href="missing-values.html#future-work"><i class="fa fa-check"></i><b>4.2.5</b> Future Work</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#distribution-single-feature"><i class="fa fa-check"></i><b>5.1</b> Distribution: Single Feature</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#crime-category-word-cloud"><i class="fa fa-check"></i><b>5.1.1</b> Crime Category: Word Cloud</a></li>
+<li class="chapter" data-level="5.1.2" data-path="results.html"><a href="results.html#crime-category-recategorized-crimes-distribution"><i class="fa fa-check"></i><b>5.1.2</b> Crime Category: Recategorized Crime’s Distribution</a></li>
+<li class="chapter" data-level="5.1.3" data-path="results.html"><a href="results.html#location-of-occurence-word-cloud"><i class="fa fa-check"></i><b>5.1.3</b> Location of Occurence: Word Cloud</a></li>
+<li class="chapter" data-level="5.1.4" data-path="results.html"><a href="results.html#location-of-occurence-recategorized-locations-distribution"><i class="fa fa-check"></i><b>5.1.4</b> Location of Occurence: Recategorized Location’s Distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#distribution-connection-between-features"><i class="fa fa-check"></i><b>5.2</b> Distribution &amp; Connection: Between Features</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#suspect-alluvial-crime-type"><i class="fa fa-check"></i><b>5.2.1</b> Suspect Alluvial Crime Type</a></li>
+<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#victim-alluvial-crime-type"><i class="fa fa-check"></i><b>5.2.2</b> Victim Alluvial Crime Type</a></li>
+<li class="chapter" data-level="5.2.3" data-path="results.html"><a href="results.html#law-category-vs-time-of-occurence"><i class="fa fa-check"></i><b>5.2.3</b> Law Category VS Time of Occurence</a></li>
+<li class="chapter" data-level="5.2.4" data-path="results.html"><a href="results.html#heat-map-of-crime-occurrence-day-time-x-location"><i class="fa fa-check"></i><b>5.2.4</b> Heat Map of Crime Occurrence: Day Time x Location</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#time-series-covid-19-vs-crime"><i class="fa fa-check"></i><b>5.3</b> Time Series: Covid-19 vs Crime</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="results.html"><a href="results.html#time-series-total"><i class="fa fa-check"></i><b>5.3.1</b> Time Series Total</a></li>
+<li class="chapter" data-level="5.3.2" data-path="results.html"><a href="results.html#time-series-trends-of-each-crime-category-vs-covid-19"><i class="fa fa-check"></i><b>5.3.2</b> Time Series: Trends of Each Crime Category VS Covid-19</a></li>
+<li class="chapter" data-level="5.3.3" data-path="results.html"><a href="results.html#time-series-trends-of-each-location-category-vs-covid-19"><i class="fa fa-check"></i><b>5.3.3</b> Time Series: Trends of Each Location Category VS Covid-19</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="interactive-component.html"><a href="interactive-component.html#vis-hub-link"><i class="fa fa-check"></i><b>6.1</b> Vis-Hub Link</a></li>
+<li class="chapter" data-level="6.2" data-path="interactive-component.html"><a href="interactive-component.html#explain"><i class="fa fa-check"></i><b>6.2</b> Explain</a></li>
+<li class="chapter" data-level="6.3" data-path="interactive-component.html"><a href="interactive-component.html#insights"><i class="fa fa-check"></i><b>6.3</b> Insights</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#r-markdown"><i class="fa fa-check"></i><b>7.1</b> R Markdown</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -102,10 +164,20 @@
 <div id="header">
 <h1 class="title">EDAV: NYC Crime Covid-19 Analysis</h1>
 <p class="author"><em>sq2239 Sitong Qian, hl3518 Hongou Liu</em></p>
-<p class="date"><em>2021-11-15</em></p>
+<p class="date"><em>2021-12-13</em></p>
 </div>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
+<p>We will try to answer some of the following questions that we have interest in.</p>
+<ol style="list-style-type: decimal">
+<li><p>What are the main features of crimes in NYC. We mainly concern about five Ws: What? Where? When? Who? Whom? — What happend? Where and when did it happen? Who’s more
+likely to be the victim and who’s more likely to be the criminal? We hope knowing these could
+keep us safer (at least feel safer) in this city.</p></li>
+<li><p>How did the Pandemic affect crimes in NYC? Is there a noticeable increase in the number of cases, or the severity of the crime?</p></li>
+<li><p>Geological disparity of crime rate has always existed among different districts in NYC. How did the
+crime rate differs in different area(precinct) in new york city? Is the occurence of different crimes
+evenly distributed among all precincts?</p></li>
+</ol>
 
 </div>
             </section>
@@ -114,7 +186,7 @@
         </div>
       </div>
 
-<a href="data-sources.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="data-source.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

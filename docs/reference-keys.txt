@@ -44,3 +44,7 @@ covid-case-by-date
 data-description
 variables
 data-issue
+introduction-1
+limitations
+future-work-1
+lesson-learned
