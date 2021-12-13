@@ -1,1 +1,401 @@
 # Results
+
+```{r, echo=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(gghighlight)
+library(ggalluvial)
+df <- read_csv("data/crime_data_new.csv")
+```
+
+## Distribution: Single Feature
+### Crime Category: Word Cloud
+As we mentioned before the original categories of crimes are too detailed as shown in the
+wordcloud below. We could see that larceny and assault are two very frequent crimes, and actually
+many of the detailed crime category can be concluded into a more genral one, this is our motivation of the
+corresponding re-categorization.
+
+```{r, echo=FALSE}
+library(wordcloud2)
+crime_cat_freq <- table(df$OFNS_DESC)
+crime_cat_df <- as.data.frame(crime_cat_freq)
+colnames(crime_cat_df) <- c("word", "Freq")
+#wordcloud2(crime_cat_df)
+knitr::include_graphics("/Users/oliverliu/Projects/Columbia-MSDS-work/semester1/EDA/nyc-crime-covid19/wc1.png")
+```
+
+### Crime Category: Recategorized Crime's Distribution
+This is the distribution of more general crime categories we generated. `Others` group contains most crimes like 'MISCELLANEOUS PENAL LAW' and 'FORGERY'. The next two dominating categories are `THEFR` and `ASSAULT`, and more severe crimes like `SEX CRIME` and `MURDER` are much more rare. The point of categorizing them is that people might have different level of concerns about different type of crimes. Crime like `MURDER` definitely lay more effects on people's concern than a `Penal Violation`.
+```{r, echo=FALSE}
+df %>% filter(CRIME_CAT != 'UNKNOWN') %>% group_by(CRIME_CAT) %>% count() %>% 
+  ggplot(aes(x = reorder(`CRIME_CAT`,-n), y=n)) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  xlab("crime category") +
+  ylab("count")
+
+```
+
+### Location of Occurence: Word Cloud
+Similarly, we also use word cloud to show the detailed location categories, and categorized in more general ones. We see that street and residences are where most crimes happen.
+```{r, echo=FALSE}
+#loc_cat_freq <- table(df$PREM_TYP_DESC)
+#loc_cat_df <- as.data.frame(loc_cat_freq)
+#colnames(loc_cat_df) <- c("word", "Freq")
+#wordcloud2(loc_cat_df)
+knitr::include_graphics("/Users/oliverliu/Projects/Columbia-MSDS-work/semester1/EDA/nyc-crime-covid19/wc2.png")
+```
+
+
+### Location of Occurence: Recategorized Location's Distribution
+```{r, echo=FALSE}
+df %>% filter(LOC_CAT != 'UNKNOWN') %>% group_by(LOC_CAT) %>% count() %>%  
+  ggplot(aes(x = reorder(`LOC_CAT`,-n), y=n)) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  xlab("crime category") +
+  ylab("count")
+
+```
+
+## Distribution & Connection: Between Features
+### Suspect Alluvial Crime Type 
+In this section, we are looking to get the profile of the suspect by the crime type and the profile of the victim by the crime type. We start with the crime type and based on the plot, we set the class to be suspect/victim gender, suspect/victim age group, and suspect/victim race. 
+
+Based on the plot, we found that the majority of the crime category are assault, other, theft, and most of the crime suspects fall in the age between 25-44. The top of the suspect race group is the black people. The next suspect group falls to be the white Hispanic. From the output of the graph, it seems like there are differences in terms of the suspect gender, males tend to be more aggressive than females, which is not surprising to see.
+
+However, from the plot we did not see very much the difference in suspects' profiles among
+different crime categories. 
+
+```{r, echo=FALSE}
+dfsuspectcrime <- df %>%  filter(CRIME_CAT != 'UNKNOWN') %>%
+  select(SUSP_AGE_GROUP,SUSP_RACE,SUSP_SEX,CRIME_CAT) %>% 
+  group_by(SUSP_AGE_GROUP,SUSP_RACE,SUSP_SEX,CRIME_CAT) %>% 
+  summarize(count=n())  %>% 
+  filter(SUSP_AGE_GROUP=='<18'|SUSP_AGE_GROUP=='18-24'|SUSP_AGE_GROUP=='25-44'|SUSP_AGE_GROUP=='45-64'|SUSP_AGE_GROUP=='65+')%>% filter(SUSP_SEX=='F'|SUSP_SEX=='M')%>% filter(SUSP_RACE!='')
+
+ggplot(as.data.frame(dfsuspectcrime),
+ aes(y = count, axis1 = CRIME_CAT, axis2 = SUSP_SEX, axis3 = SUSP_AGE_GROUP,axis4 = SUSP_RACE)) +
+ geom_alluvium(aes(fill = CRIME_CAT), width = 1/12) +
+ geom_stratum(width = 1/12, fill = "grey80", color = "grey") +
+ geom_label(stat = "stratum",
+ aes(label = after_stat(stratum))) +
+ scale_x_discrete(expand = c(.05, .05)) +
+ scale_fill_brewer(type = "qual", palette = "Set1") +
+ ggtitle('Suspect Crime Type Alluvial') +
+ theme_void()
+
+```
+
+### Victim Alluvial Crime Type 
+After having the overall understanding of the suspect profile, we are now moving on towards victim profile. 
+
+In the alluvial plot, we found that the gender of victims are evenly distributed. Such a result is somehow beyond our expectation, we initially expect to see that female victim might have an overwhelming count in the case complaints. Unlike the previous plot, we could basically see desparity of victim profile among different crimes this time. For example, females are seen more likely to undergo assault than males while male are more likely to confront robbery and theft than female. Unsuprisingly, sex crimes happens much more to female than male. Again, like the suspect group, the majority of the age group here falls in the 25-44, and top three victim race groups are the black race group, the white race group, and the white Hispano race group
+
+```{r}
+dfvictimcrime <- df %>% filter(CRIME_CAT != 'UNKNOWN') %>%
+  select(VIC_AGE_GROUP,VIC_RACE,VIC_SEX,CRIME_CAT) %>% 
+  group_by(VIC_AGE_GROUP,VIC_RACE,VIC_SEX,CRIME_CAT) %>% 
+  summarize(count=n())  %>% 
+  filter(VIC_AGE_GROUP=='<18'|VIC_AGE_GROUP=='18-24'|VIC_AGE_GROUP=='25-44'|VIC_AGE_GROUP=='45-64'|VIC_AGE_GROUP=='65+')%>% filter(VIC_SEX=='F'|VIC_SEX=='M')%>% filter(VIC_RACE!='')
+
+ggplot(as.data.frame(dfvictimcrime),
+ aes(y = count, axis1 = CRIME_CAT, axis2 = VIC_SEX, axis3 = VIC_AGE_GROUP,axis4 = VIC_RACE)) +
+ geom_alluvium(aes(fill = CRIME_CAT), width = 1/12) +
+ geom_stratum(width = 1/12, fill = "grey80", color = "grey") +
+ geom_label(stat = "stratum",
+ aes(label = after_stat(stratum))) +
+ scale_x_discrete(expand = c(.05, .05)) +
+ scale_fill_brewer(type = "qual", palette = "Set1") +
+ ggtitle('Victim Crime Type Alluvial') +
+ theme_void()
+```
+
+### Law Category VS Time of Occurence
+In this section, we simply want to know what periods of time in a day are crime more likely to happen. Will severity of crime affect when the crime happens?
+
+The output of the graph indicates that early morning is the “safest time” of a day. For violation and misdemeanor, crime occurence peaks at the period between 10 am to 20 pm. However, such a pattern does not hold for the felony crime, we see that occurrence rate of felony are equally high from 10am to midnight. Such results are somehow beyond our expectations, we have always been told that daytime is much safer than nighttime, however, the results somehow reject such assumption and lead us to the exact opposite way.
+```{r}
+df$hour <- hour(hms(as.character(factor(df$CMPLNT_FR_TM))))
+df %>% select(hour,LAW_CAT_CD) %>%
+  group_by(df$hour,LAW_CAT_CD) %>% count() %>% 
+  ggplot(aes(x = `df$hour`, y=n)) + 
+  geom_bar(stat = "identity") + 
+  scale_x_continuous(breaks = seq(0,23,2))+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  xlab('Hour')+
+  ylab('case count')+
+  facet_wrap(~factor(LAW_CAT_CD,level = c("VIOLATION", "MISDEMEANOR", "FELONY")))
+
+```
+
+### Heat Map of Crime Occurrence: Day Time x Location
+In this heatmap below, we want know where and when crimes are more likely to happen, further more,
+we wonder the "dangerous time periods" might differ accordingly to the locations. Guess what? From our findings
+it indeed does. There are three outstanding findings from our plot. 1. Mid-noon  and mid-night are when crime are
+the time when crime most likely to happen at residence. 2. Happening of street crimes peak at evening between 5 to 10.
+3.Crimes in retail mainly happen in the afternoon.
+
+```{r, echo=FALSE}
+dfheatmap2 <- df %>% select(LOC_CAT,hour) %>% filter(LOC_CAT!='UNKNOWN') %>% group_by(LOC_CAT,hour) %>% summarize(count=n()) 
+
+ggplot(dfheatmap2, aes(x=LOC_CAT,y=dfheatmap2$hour, fill= count)) + 
+  geom_tile() +
+  scale_fill_gradient(low="white", high="red") +
+  xlab('Loc Category')+
+  ylab('HOUR')+
+  scale_y_continuous(breaks = seq(0,23,1))
+  ggtitle('Heatmap HOUR VS loc Category')
+```
+## Time Series: Covid-19 vs Crime
+In this section, we are interested in whether the pandemic influence the type of the criminal case, and the exact location of the incident. Will that be a noticeable change in the particular trend of crime during the pandemic time? 
+
+As we mentioned early in the data issue section, we found our dataset contained limited data in 2020, and in order to moderate the potential bias caused by limited information, we first separate the dataset into 2020 and 2021 and rescale the case that happened in each of the years by dividing the max case of the particular category within that year. Thus, our y-axis is not that case count in the following graph
+
+### Time Series Total 
+
+As it can be seen from the graph, that in the year 2020, before the pandemic, the crime in NewYork is at a relatively low rate compared to the pandemic time, while as the pandemic begins, the very first stage of the pandemic, the criminal case has a positive association with the covid confirmed case. 
+
+While in the year of 2021, such association reveal in the opposite direction, as the number of confirmed covid cases decrease, the number of the criminal did not change much.
+
+We infer that the main cause of the different association in 2020 and 2021 is that, when the covid-19 first broke out in 2020, the government was not prepared and thus had a stronger impact on people's life. Unemployment rate increased, people got panic, and all these brought a more volatile society. Howver, when entering 2021, government are more prepared, vacinations came out, people are already used to covid-19 hence the situation is eased.
+```{r}
+df$date <- format(as.Date(parse_date_time(df$CMPLNT_FR_DT,"mdy")), format="%Y-%m")
+dfcovid <- read_csv("./data/cases_by_day.csv")
+dfcovid$date <- format(as.Date(parse_date_time(dfcovid$date_of_interest,"mdy")), format="%Y-%m")
+
+dfcovidupdate <- dfcovid %>% group_by(date) %>% summarise(Case = sum(CASE_COUNT))  
+dfcovidupdate$CaseType <- 'CovidCase'
+
+dfcovidupdate2020 <- head(dfcovidupdate,11)
+dfcovidupdate2020$Year <- '2020'
+dfcovidupdate2021 <- dfcovidupdate[12:20,]
+dfcovidupdate2021$Year <- '2021'
+
+dfcovidupdate2020 <- dfcovidupdate2020 %>% mutate(RescaleCase = round(Case/max(Case),2))
+dfcovidupdate2021 <- dfcovidupdate2021 %>% mutate(RescaleCase = round(Case/max(Case),2))
+
+dftupdate <- df %>% group_by(date)  %>% count_() %>% rename(Case = n)
+dftupdate$CaseType <- 'CrimeCase'
+
+dftupdate2020 <- head(dftupdate,12)
+dftupdate2020$Year <- '2020'
+dftupdate2021 <- dftupdate[13:21,]
+dftupdate2021$Year <- '2021'
+
+
+dftupdate2020 <- dftupdate2020 %>% mutate(RescaleCase = round(Case/546,2))
+dftupdate2021 <- dftupdate2021 %>% mutate(RescaleCase = round(Case/7236,2))
+
+
+dftimeseries2020 <- rbind(dfcovidupdate2020,dftupdate2020)
+dftimeseries2021 <- rbind(dfcovidupdate2021,dftupdate2021)
+dftimeseries1 <- rbind(dftimeseries2020,dftimeseries2021)
+
+ggplot(dftimeseries2020,aes(x = date, y = RescaleCase, group = CaseType))+ 
+  geom_line(aes(color=CaseType)) + 
+  geom_point(aes(color=CaseType)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Trends in 2020")
+
+ggplot(dftimeseries2021,aes(x = date, y = RescaleCase, group = CaseType))+ 
+  geom_line(aes(color=CaseType)) + 
+  geom_point(aes(color=CaseType)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Trends in 2021")
+
+```
+
+
+### Time Series: Trends of Each Crime Category VS Covid-19
+For the crime type, we also did a time series analysis plot, for the year  2020, among all the cases, sex crimes are on the case categories that are most influenced by the pandemic, a noticeable increase as the confirmed case increase. For the year of 2021, it seems no clear connection between particular crime types with the covid cases. All the crime types are in a relatively slow increasing pattern, except the sex crime types.
+
+An interesting finding is at the right part of the graph, we can see that as the covid-confirmed case increase again from June, the case of sex crimes increases again too. Although sex crimes cases and the covid-19 confirmed cases do not follow the exact pattern during all the moments in the time period that we investigate, but compared to other criminal categories’ connection with the covid confirmed cases, it’s enough to conclude that there is some association exists between sex crimes and covid confirmed case.
+```{r}
+dfcrime <- df %>% group_by(date,CRIME_CAT) %>% count() %>% rename(Case = n)
+dfcrime$Case <- as.double(dfcrime$Case)
+
+dfcrime2020 <- head(dfcrime,52)
+dfcrime2021 <- dfcrime[53:107,]
+
+dfcrime2020ASSAULT <- dfcrime2020 %>% filter(CRIME_CAT =='ASSAULT') 
+dfcrime2020ASSAULT$Max = max(dfcrime2020ASSAULT$Case)
+
+dfcrime2020OTHERS <- dfcrime2020 %>% filter(CRIME_CAT =='OTHERS') 
+dfcrime2020OTHERS$Max = max(dfcrime2020OTHERS$Case)
+
+dfcrime2020ROBBERY <- dfcrime2020 %>% filter(CRIME_CAT =='ROBBERY') 
+dfcrime2020ROBBERY$Max = max(dfcrime2020ROBBERY$Case)
+date <- as.character(c('2020-02','2020-03','2020-04','2020-05','2020-06','2020-07','2020-08','2020-09','2020-10'))
+CRIME_CAT <- c('ROBBERY','ROBBERY','ROBBERY','ROBBERY','ROBBERY','ROBBERY','ROBBERY','ROBBERY','ROBBERY')
+Case <- c(0,0,0,0,0,0,0,0,0)
+Max <- c(4,4,4,4,4,4,4,4,4)
+dfcrime2020ROBBERYex <- data.frame(date, CRIME_CAT, Case,Max)
+dfcrime2020ROBBERY<-rbind(dfcrime2020ROBBERYex,dfcrime2020ROBBERY)
+
+dfcrime2020SEXCRIMES  <- dfcrime2020 %>% filter(CRIME_CAT =='SEX CRIMES') 
+dfcrime2020SEXCRIMES$Max = max(dfcrime2020SEXCRIMES$Case)
+
+dfcrime2020THEFT <- dfcrime2020 %>% filter(CRIME_CAT =='THEFT') 
+dfcrime2020THEFT$Max = max(dfcrime2020THEFT$Case)
+
+dfcovidupdate2020$Category = 'CovidCase'
+dfcovidupdate2020c <- dfcovidupdate2020 %>% select(date,Category,RescaleCase)
+dfcrime2020update<- rbind(dfcrime2020ASSAULT,dfcrime2020OTHERS,dfcrime2020ROBBERY,dfcrime2020SEXCRIMES,dfcrime2020THEFT)
+dfcrime2020update <- dfcrime2020update %>% mutate(RescaleCase = Case/Max) %>% select(date,CRIME_CAT,RescaleCase)
+colnames(dfcrime2020update)[2] <- "Category"
+dfcrime2020update <- rbind(dfcovidupdate2020c,dfcrime2020update)
+
+
+ggplot(dfcrime2020update,aes(x = date, y = RescaleCase, group = Category))+ 
+  geom_line(aes(color=Category)) + 
+  geom_point(aes(color=Category)) +
+  geom_line(aes(size = Category))+
+  scale_size_manual(values = c('CovidCase' = 1.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Trends in 2020")
+
+```
+
+```{r}
+dfcrime2021ASSAULT <- dfcrime2021 %>% filter(CRIME_CAT =='ASSAULT') 
+dfcrime2021ASSAULT$Max = max(dfcrime2021ASSAULT$Case)
+
+dfcrime2021OTHERS <- dfcrime2021 %>% filter(CRIME_CAT =='OTHERS') 
+dfcrime2021OTHERS$Max = max(dfcrime2021OTHERS$Case)
+
+dfcrime2021ROBBERY <- dfcrime2021 %>% filter(CRIME_CAT =='ROBBERY') 
+dfcrime2021ROBBERY$Max = max(dfcrime2021ROBBERY$Case)
+
+dfcrime2021SEXCRIMES  <- dfcrime2021 %>% filter(CRIME_CAT =='SEX CRIMES') 
+dfcrime2021SEXCRIMES$Max = max(dfcrime2021SEXCRIMES$Case)
+
+dfcrime2021THEFT <- dfcrime2021 %>% filter(CRIME_CAT =='THEFT') 
+dfcrime2021THEFT$Max = max(dfcrime2021THEFT$Case)
+
+dfcovidupdate2021$Category = 'CovidCase'
+dfcovidupdate2021c <- dfcovidupdate2021 %>% select(date,Category,RescaleCase)
+dfcrime2021update<- rbind(dfcrime2021ASSAULT,dfcrime2021OTHERS,dfcrime2021ROBBERY,dfcrime2021SEXCRIMES,dfcrime2021THEFT)
+dfcrime2021update <- dfcrime2021update %>% mutate(RescaleCase = Case/Max) %>% select(date,CRIME_CAT,RescaleCase)
+colnames(dfcrime2021update)[2] <- "Category"
+dfcrime2021update <- rbind(dfcovidupdate2021c,dfcrime2021update)
+
+ggplot(dfcrime2021update,aes(x = date, y = RescaleCase, group = Category))+ 
+  geom_line(aes(color=Category)) + 
+  geom_point(aes(color=Category)) +
+  geom_line(aes(size = Category))+
+  scale_size_manual(values = c('CovidCase' = 1.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  ggtitle("Trends in 2021")
+```
+
+### Time Series: Trends of Each Location Category VS Covid-19
+In the year 2020, we can see from the graph that the location of the street, retail, residence are at a relatively low point at the most severe time of the pandemic time.  It makes sense that because of the pandemic, for the safety concern, people are more tend to stay at home, which moderate the crime cases that happened at places like streets. One interesting finding is that as the number of confirmed case decrease, the number of criminal cases that happen on transportation has a notable increase. This makes sense since people are more likely to go out as the severity of the pandemic is alleviated. While in the year 2021, it seems that there is no worth telling finding.
+```{r}
+dflocation <- df %>%  filter(LOC_CAT != 'UNKNOWN') %>%
+  group_by(date,LOC_CAT) %>% count() %>% rename(Case = n)
+dflocation2020 <- head(dflocation,78)
+dflocation2021 <- dflocation[79:150,]
+
+dfcrime2020OPENSPACE <- dflocation2020 %>% filter(LOC_CAT =='OPEN SPACE') 
+dfcrime2020OPENSPACE$Max = max(dfcrime2020OPENSPACE$Case)
+date <- as.character(c('2020-02','2020-04','2020-06','2020-08'))
+LOC_CAT  <- c('OPEN SPACE','OPEN SPACE','OPEN SPACE','OPEN SPACE')
+Case <- c(0,0,0,0)
+Max <- c(2,2,2,2)
+dfcrime2020OPENSPACEex <- data.frame(date, LOC_CAT, Case,Max)
+dfcrime2020OPENSPACE<-rbind(dfcrime2020OPENSPACEex,dfcrime2020OPENSPACE)
+
+
+dfcrime2020OTHERS <- dflocation2020 %>% filter(LOC_CAT =='OTHERS') 
+dfcrime2020OTHERS$Max = max(dfcrime2020OTHERS$Case)
+
+dfcrime2020RECREATION <- dflocation2020 %>% filter(LOC_CAT =='RECREATION') 
+dfcrime2020RECREATION$Max = max(dfcrime2020RECREATION$Case)
+date <- as.character(c('2020-05','2020-06','2020-07','2020-08','2020-09'))
+LOC_CAT  <- c('RECREATION','RECREATION','RECREATION','RECREATION','RECREATION')
+Case <- c(0,0,0,0,0)
+Max <- c(8,8,8,8,8)
+dfcrime2020RECREATIONex <- data.frame(date, LOC_CAT, Case,Max)
+dfcrime2020RECREATION<-rbind(dfcrime2020RECREATIONex,dfcrime2020RECREATION)
+
+
+dfcrime2020RESIDENCE <- dflocation2020 %>% filter(LOC_CAT =='RESIDENCE') 
+dfcrime2020RESIDENCE$Max = max(dfcrime2020RESIDENCE$Case)
+
+dfcrime2020RETAIL <- dflocation2020 %>% filter(LOC_CAT =='RETAIL') 
+dfcrime2020RETAIL$Max = max(dfcrime2020RETAIL$Case)
+
+dfcrime2020STREET <- dflocation2020 %>% filter(LOC_CAT =='STREET') 
+dfcrime2020STREET$Max = max(dfcrime2020STREET$Case)
+
+dfcrime2020TRANSPORTATION <- dflocation2020 %>% filter(LOC_CAT =='TRANSPORTATION') 
+dfcrime2020TRANSPORTATION$Max = max(dfcrime2020TRANSPORTATION$Case)
+
+dfcrime2020UNKNOWN <- dflocation2020 %>% filter(LOC_CAT =='UNKNOWN') 
+dfcrime2020UNKNOWN$Max = max(dfcrime2020UNKNOWN$Case)
+date <- as.character(c('2020-01','2020-02','2020-04','2020-05','2020-06','2020-07','2020-08','2020-10','2020-11'))
+LOC_CAT  <- c('UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN')
+Case <- c(0,0,0,0,0,0,0,0,0)
+Max <- c(1,1,1,1,1,1,1,1,1)
+dfcrime2020UNKNOWNex <- data.frame(date, LOC_CAT, Case,Max)
+dfcrime2020UNKNOWN<-rbind(dfcrime2020UNKNOWNex,dfcrime2020UNKNOWN)
+
+
+dfcrime2020location <- rbind(dfcrime2020OPENSPACE,dfcrime2020OTHERS,dfcrime2020RECREATION,dfcrime2020RESIDENCE,dfcrime2020RETAIL,dfcrime2020STREET,dfcrime2020TRANSPORTATION,dfcrime2020UNKNOWN)
+dfcrime2020locationupdate <- dfcrime2020location %>% mutate(RescaleCase = Case/Max) %>% select(date,LOC_CAT,RescaleCase)
+colnames(dfcrime2020locationupdate)[2] <- "Category"
+dfcrime2020locationupdate <- rbind(dfcovidupdate2020c,dfcrime2020locationupdate)
+
+ggplot(dfcrime2020locationupdate,aes(x = date, y = RescaleCase, group = Category))+ 
+  geom_line(aes(color=Category)) + 
+  geom_point(aes(color=Category)) +
+  geom_line(aes(size = Category))+
+  scale_size_manual(values = c('CovidCase' = 1.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+```{r}
+dflocation <- df %>%  filter(LOC_CAT != 'UNKNOWN') %>%
+  group_by(date,LOC_CAT) %>% count() %>% rename(Case = n)
+dflocation2020 <- head(dflocation,78)
+dflocation2021 <- dflocation[79:150,]
+
+dfcrime2021OPENSPACE <- dflocation2021 %>% filter(LOC_CAT =='OPEN SPACE') 
+dfcrime2021OPENSPACE$Max = max(dfcrime2021OPENSPACE$Case)
+
+dfcrime2021OTHERS <- dflocation2021 %>% filter(LOC_CAT =='OTHERS') 
+dfcrime2021OTHERS$Max = max(dfcrime2021OTHERS$Case)
+
+dfcrime2021RECREATION <- dflocation2021 %>% filter(LOC_CAT =='RECREATION') 
+dfcrime2021RECREATION$Max = max(dfcrime2021RECREATION$Case)
+
+dfcrime2021RESIDENCE <- dflocation2021 %>% filter(LOC_CAT =='RESIDENCE') 
+dfcrime2021RESIDENCE$Max = max(dfcrime2021RESIDENCE$Case)
+
+dfcrime2021RETAIL <- dflocation2021 %>% filter(LOC_CAT =='RETAIL') 
+dfcrime2021RETAIL$Max = max(dfcrime2021RETAIL$Case)
+
+dfcrime2021STREET <- dflocation2021 %>% filter(LOC_CAT =='STREET') 
+dfcrime2021STREET$Max = max(dfcrime2021STREET$Case)
+
+dfcrime2021TRANSPORTATION <- dflocation2021 %>% filter(LOC_CAT =='TRANSPORTATION') 
+dfcrime2021TRANSPORTATION$Max = max(dfcrime2021TRANSPORTATION$Case)
+
+dfcrime2021UNKNOWN <- dflocation2021 %>% filter(LOC_CAT =='UNKNOWN') 
+dfcrime2021UNKNOWN$Max = max(dfcrime2021UNKNOWN$Case)
+
+dfcrime2021location <- rbind(dfcrime2021OPENSPACE,dfcrime2021OTHERS,dfcrime2021RECREATION,dfcrime2021RESIDENCE,dfcrime2021RETAIL,dfcrime2021STREET,dfcrime2021TRANSPORTATION,dfcrime2021UNKNOWN)
+dfcrime2021locationupdate <- dfcrime2021location %>% mutate(RescaleCase = Case/Max) %>% select(date,LOC_CAT,RescaleCase)
+colnames(dfcrime2021locationupdate)[2] <- "Category"
+dfcrime2021locationupdate <- rbind(dfcovidupdate2021c,dfcrime2021locationupdate)
+
+ggplot(dfcrime2021locationupdate,aes(x = date, y = RescaleCase, group = Category))+ 
+  geom_line(aes(color=Category)) + 
+  geom_point(aes(color=Category)) +
+  geom_line(aes(size = Category))+
+  scale_size_manual(values = c('CovidCase' = 1.5)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```

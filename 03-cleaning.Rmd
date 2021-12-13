@@ -1,1 +1,23 @@
 # Data transformation
+## Recategorize 
+We have two columns `OFNS_DESC` and `PREM_TYP_DESC` standing for detailed crime category
+and location of occurence. However, the fields of them are too detailed. There are too many categories
+of them, which is not informative in our visualization. Hence we decided to merge some of the detailed categories
+into a more general one, which will result in less categories in higher level. For example, 'Larceny', 'Vehicle Stolen'
+and 'Burglary' can all be concluded as 'Theft'. Locations like 'Grocery store', 'Clothing store' and 'Market' can all be
+concluded as 'Retail Store'. We chose to use python to accomplish the work, and the code is bellow.
+https://github.com/oliverliuoo/nyc-crime-covid19/blob/main/python/categorize.py
+
+## Parse Date and Time Stamp
+We have date column in crime and covid-19 data. As we want to show the trend of covid-19 
+and crime in a long time period, we need to aggregate the count of occurence by month. Hence
+we will need to parse the date column to get `year` and `month`. Also, we need to parse time stamp
+column to get a column hour. We just did this transformation in R as it is handy to do so.
+
+## Aggregation
+We did some aggregation work for specific visualization, for example, we want 
+to visualize the trend of covid-19 cases by month, so we need to aggregate the count 
+by month. We handled all these aggregation jobs with R pipeline right before visualization.
+
+The code for above two parts are both in the following link:
+https://github.com/oliverliuoo/nyc-crime-covid19/blob/main/05-results.Rmd
